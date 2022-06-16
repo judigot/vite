@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "json:server": "json-server --watch db.json",
-    "dev": "vite",
+    "json:server": "json-server --watch -p 5000 db.json",
+    "dev": "vite & npm run json:server",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
