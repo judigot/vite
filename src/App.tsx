@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { BsPlusCircleFill } from "react-icons/bs";
+import DataTable from "react-data-table-component";
 import styled from "styled-components";
-
 import "./App.css";
+
+interface Employee {
+  id?: number;
+  emp_name?: string;
+  emp_desc?: string;
+  dept_id?: number;
+  active?: boolean;
+}
 
 const queryClient = new QueryClient();
 
@@ -19,8 +28,6 @@ const Container = styled.div`
 const ActionsWrapper = styled.div`
   font-size: 50px;
 `;
-
-import { BsPlusCircleFill } from "react-icons/bs";
 
 const App = () => {
   return (
@@ -44,6 +51,15 @@ const Actions = () => {
 const Employees = () => {
   const { isLoading, data, isFetching } = useQuery("employees", read);
 
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    alert("reload");
+    setEmployees(data);
+  }, [data]);
+
+  const [rows, setRows] = useState<[Employee]>([{}]);
+
   if (isLoading)
     return (
       <>
@@ -51,18 +67,70 @@ const Employees = () => {
       </>
     );
 
+  const columns = [
+    {
+      name: "Employee Name",
+      sortable: true,
+      selector: (row: { [key: string]: string }) => row.emp_name,
+    },
+    {
+      name: "Description",
+      sortable: true,
+      selector: (row: { [key: string]: string }) => row.emp_desc,
+    },
+    {
+      name: "Status",
+      sortable: true,
+      selector: (row: { [key: string]: string }) => row.active,
+      format: (row: { [key: string]: string }) =>
+        row.active ? "Active" : "Inactive",
+    },
+  ];
+
+  const handleSelectedRows = (rows: any) => {
+    setRows(rows.selectedRows);
+  };
+
+  const contextActions = () => {
+    const handleEdit = () => {
+      alert(JSON.stringify(rows));
+    };
+    const handleDelete = () => {
+      if (
+        window.confirm(`Are you sure you want to delete the selected row/s?`)
+      ) {
+        deleteRow(rows);
+      }
+    };
+    return (
+      <>
+        <button onClick={handleEdit}>Edit</button>
+        <button onClick={handleDelete}>Delete</button>
+      </>
+    );
+  };
+
   return (
     <>
-      {data &&
+      <DataTable
+        title="Employee List"
+        columns={columns}
+        data={employees}
+        pagination
+        selectableRows
+        contextActions={contextActions()}
+        onSelectedRowsChange={handleSelectedRows}
+      />
+      {/* {data &&
         data.map((row: { [key: string]: string }, i: number) => {
           return <div key={i}>{row?.emp_name}</div>;
-        })}
+        })} */}
     </>
   );
 };
 
 const create = () => {
-  const data: any = {
+  const data: { [key: string]: string | number } = {
     emp_name: "Jude",
     emp_desc: "Coolest guy",
     dept_id: 3,
@@ -92,6 +160,23 @@ const read = async () => {
       "Content-Type": "application/json",
     },
   }).then((response) => response.json());
+};
+
+const deleteRow = async (rows: [Employee]) => {
+  const data = rows.map((item) => item.id);
+
+  fetch(`http://localhost:5000/employees/${data[0]}`, {
+    method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data), // For POST requests only
+  })
+    .then((response) => response.json())
+    .then((result) => {})
+    .catch((error) => {
+      alert(error);
+    });
 };
 
 export default App;
