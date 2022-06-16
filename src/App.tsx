@@ -1,52 +1,88 @@
 import { useState } from "react";
-import logo from "./logo.svg";
+import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import styled from "styled-components";
+
 import "./App.css";
 
-import styled from "styled-components";
+const queryClient = new QueryClient();
 
 const H1Styled = styled.h1`
   color: blue;
 `;
 
-function App() {
-  const [count, setCount] = useState(0);
+const Container = styled.div`
+  width: 50%;
+  margin: auto;
+`;
+
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Container>
+        <Actions />
+        <Employees />
+      </Container>
+    </QueryClientProvider>
+  );
+};
+
+const Actions = () => {
+  return (
+    <>____________</>
+  );
+};
+
+const Employees = () => {
+  const { isLoading, data, isFetching } = useQuery("employees", read);
+
+  if (isLoading)
+    return (
+      <>
+        <h1>Loading</h1>
+      </>
+    );
 
   return (
-    <div className="App">
-      <H1Styled>Styled Component</H1Styled>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      {data &&
+        data.map((row: { [key: string]: string }, i: number) => {
+          return <div key={i}>{row?.emp_name}</div>;
+        })}
+    </>
   );
-}
+};
+
+const create = () => {
+  const data: any = {
+    emp_name: "Jude",
+    emp_desc: "Coolest guy",
+    dept_id: 3,
+  };
+
+  fetch(`http://localhost:5000/employees`, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data), // For POST requests only
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      alert(JSON.stringify(result));
+    })
+    .catch((error) => {
+      alert(error);
+    });
+};
+
+const read = async () => {
+  return await fetch(`http://localhost:5000/employees`, {
+    method: "GET", // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((response) => response.json());
+};
 
 export default App;
