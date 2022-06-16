@@ -11,9 +11,16 @@ const H1Styled = styled.h1`
 `;
 
 const Container = styled.div`
+  padding-top: 5%;
   width: 50%;
   margin: auto;
 `;
+
+const ActionsWrapper = styled.div`
+  font-size: 50px;
+`;
+
+import { BsPlusCircleFill } from "react-icons/bs";
 
 const App = () => {
   return (
@@ -28,7 +35,9 @@ const App = () => {
 
 const Actions = () => {
   return (
-    <>____________</>
+    <ActionsWrapper>
+      <BsPlusCircleFill />
+    </ActionsWrapper>
   );
 };
 
