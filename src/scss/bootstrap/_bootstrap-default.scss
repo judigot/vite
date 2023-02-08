@@ -1,0 +1,30 @@
+/*************
+ * BOOTSTRAP *
+ *************/
+// https://getbootstrap.com/docs/5.0/customize/sass/
+
+/*******************
+ * DEFAULT IMPORTS *
+ *******************/
+@import "~bootstrap/scss/functions";
+
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/transitions";
+
+/*******************
+ * DEFAULT IMPORTS *
+ *******************/
+
+// Uncomment to detect misbehaviors in Bootstrap
+// @import "~bootstrap/scss/bootstrap";
