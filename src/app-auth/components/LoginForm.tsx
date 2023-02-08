@@ -1,5 +1,4 @@
 import React from "react";
-import { useRef } from "react";
 
 import axios from "axios";
 
@@ -11,8 +10,8 @@ interface Form {
 }
 
 const LoginForm = (props: Props) => {
-  const usernameRef = useRef<HTMLInputElement>(null!);
-  const passwordRef = useRef<HTMLInputElement>(null!);
+  const usernameRef = React.useRef<HTMLInputElement>(null!);
+  const passwordRef = React.useRef<HTMLInputElement>(null!);
 
   const [message, setMessage] = React.useState<string>("");
 

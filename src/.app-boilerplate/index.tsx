@@ -1,9 +1,12 @@
 import React from "react";
 
-function App2() {
+interface Props {}
+
+export default function App(props: Props) {
   const [data, setData] = React.useState<string>();
 
   React.useEffect(() => {
+    // Initial render
     if (!data) {
       getData();
     }
@@ -20,5 +23,3 @@ function App2() {
     </>
   );
 }
-
-export default App2;

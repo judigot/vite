@@ -2,7 +2,7 @@ import "./scss/main.scss";
 
 import styled from "styled-components";
 
-import { ParentComponent } from "./components/ParentComponent";
+import { ParentComponent } from "./app-cheatsheet/components/ParentComponent";
 import Dependencies from "./components/Dependencies";
 
 const H1Styled = styled.h1`
