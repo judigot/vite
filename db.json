@@ -1,5 +1,27 @@
 {
-  "employees": [],
+  "employees": [
+    {
+      "id": 1,
+      "emp_name": "John Doe",
+      "emp_desc": "Coolest guy",
+      "dept_id": 3,
+      "active": true
+    },
+    {
+      "id": 2,
+      "emp_name": "Jane Doe",
+      "emp_desc": "Coolest girl",
+      "dept_id": 3,
+      "active": true
+    },
+    {
+      "id": 3,
+      "emp_name": "Jude",
+      "emp_desc": "Coolest guy ever",
+      "dept_id": 3,
+      "active": true
+    }
+  ],
   "departments": [
     {
       "id": 1,
