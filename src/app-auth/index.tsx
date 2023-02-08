@@ -1,7 +1,5 @@
 import React from "react";
 
-import ReactDOM from "react-dom/client";
-
 import LoginForm from "./components/LoginForm";
 import User from "./components/User";
 
@@ -9,7 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Authentication from "./utils/Authentication";
 
-function App1() {
+export default function App() {
   const [auth, setAuth] = React.useState<
     | void
     | {
@@ -68,5 +66,3 @@ function App1() {
     </>
   );
 }
-
-export default App1;
