@@ -101,7 +101,14 @@ export const ParentComponent = (props: Props) => {
   // };
 
   return (
-    <div className="SampleComponent">
+    <div
+      className="SampleComponent"
+      style={{
+        textAlign: "center",
+        backgroundColor: "#ddd",
+        padding: "20px",
+      }}
+    >
       <h1>React</h1>
 
       <h2>Fetch data from an API</h2>
@@ -113,7 +120,8 @@ export const ParentComponent = (props: Props) => {
 
       <h2>"Prop drilling"</h2>
       <h2>Props (passing data/function from parent to child)</h2>
-      <h2>Accessing/changing a parent's state using props: {parentState}</h2>
+      <h2>Accessing/changing a parent's state using props:</h2>
+      <h3>{parentState}</h3>
 
       <span>*values come from the parent component</span>
       {data.map((person) => {
@@ -133,6 +141,19 @@ export const ParentComponent = (props: Props) => {
       <hr />
 
       <h2>Click event</h2>
+      <p>These will not invoke the function on render:</p>
+      <code>✔️ onClick={"{functionName}"}</code>
+      <br />
+      <code>✔️ onClick={`{ () => { functionName("value"); } }`}</code>
+      <br />
+      <br />
+      <br />
+
+      <p>This will invoke the function on render:</p>
+      <code>❌ onClick={`{functionName("value")}`}</code>
+
+      <br />
+      <br />
       <button onClick={clickEvent}>Click Event</button>
       <hr />
 
@@ -150,6 +171,8 @@ export const ParentComponent = (props: Props) => {
 
       <h2>Getting values</h2>
       <input type="text" ref={valueReference} />
+      <br />
+      <br />
       <button onClick={getValue}>Click here to alert the inputted value</button>
       <hr />
 

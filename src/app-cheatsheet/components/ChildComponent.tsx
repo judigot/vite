@@ -34,10 +34,12 @@ export const ChildComponent = (props: Person) => {
 
       <button
         onClick={() => {
-          props.changeParentState("Changed parent state");
+          props.changeParentState(
+            "Changed parent state. This sentence is from the child component"
+          );
         }}
       >
-        Click here to change a parent's state
+        Change a parent's state with values from child component
       </button>
     </>
   );

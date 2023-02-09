@@ -45,9 +45,7 @@ function MovieList() {
           data-testid="app-input"
         />
         <button
-          onClick={() => {
-            handleSearch();
-          }}
+          onClick={handleSearch}
           className=""
           data-testid="submit-button"
         >
