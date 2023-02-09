@@ -37,7 +37,7 @@ export default function App(props: Props) {
   //====================HELPER FUNCTIONS====================//
   // Function expression syntax to save memory
   const handleClick = () => {
-    alert("dddddddddddd");
+    alert("Waddup");
   };
   //====================HELPER FUNCTIONS====================//
 
