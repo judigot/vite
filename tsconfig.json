@@ -15,19 +15,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    //==========CUSTOM==========//
     "baseUrl": "./src",
     "paths": {
-      "app/*": ["app/*"],
-      "Root/*": ["src/*"],
-      "Sequelize/*": ["sequelize/*"],
-      "Classes/*": ["app/Classes/*"],
-      "Models/*": ["app/Models/*"],
-      "Controllers/*": ["app/Http/Controllers/*"],
-      "images/*": ["public/images/*"],
-      "fonts/*": ["public/fonts/*"],
-      "styles/*": ["public/scss/*"],
-      "components/*": ["components/*"]
+      "@app/*": ["app/*"],
+      "@images/*": ["public/images/*"],
+      "@fonts/*": ["public/fonts/*"],
+      "@styles/*": ["public/scss/*"],
+      "@components/*": ["components/*"]
     },
+    //==========CUSTOM==========//
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
