@@ -98,9 +98,6 @@ export const ParentComponent = (props: Props) => {
   const [parentState, setParentState] = React.useState<string>(
     "Initial parent state"
   ); // <any> will allow any data type on state change
-  // const changeParentState = (value: string) => {
-  //   setParentState(value);
-  // };
 
   return (
     <div
@@ -129,10 +126,7 @@ export const ParentComponent = (props: Props) => {
       {data.map((person) => {
         return (
           <ChildComponent
-            // changeParentState={(parentState: any) =>
-            //   setParentState(parentState)
-            // }
-            changeParentState={setParentState}
+            changeParentState={setParentState} // Passing the setParentState setter function to child component
             parentFunction={parentFunction}
             key={person.id}
             firstName={person.firstName}
@@ -208,9 +202,6 @@ export const ParentComponent = (props: Props) => {
         onChange={(e) => setNumber(number + 1)}
       />
       <span>{hardToComputeNumber}</span>
-      <hr />
-
-      <h2>Get data from child to parent</h2>
       <hr />
 
       <h2>Custom hooks</h2>
