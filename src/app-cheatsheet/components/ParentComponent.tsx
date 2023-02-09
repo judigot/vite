@@ -85,8 +85,10 @@ export const ParentComponent = (props: Props) => {
     },
   ];
 
-  const [oneTimeStateChange, setOneTimeStateChange] =
-    React.useState<any>(false); // <any> will allow any data type on state change
+  const [oneTimeStateChange, setOneTimeStateChange] = React.useState<
+    boolean | string
+  >(false); // <any> will allow any data type on state change
+
   const handleOneTimeStateChange = () => {
     if (!oneTimeStateChange) {
       setOneTimeStateChange("Can not be changed");
@@ -176,7 +178,7 @@ export const ParentComponent = (props: Props) => {
       <button onClick={getValue}>Click here to alert the inputted value</button>
       <hr />
 
-      <h2>Update only a specific value in a state object</h2>
+      <h2>Change an object's property</h2>
       <p>
         Only the last name is changed in this state. Change only a single a
         property of an object

@@ -34,18 +34,19 @@ export default function App(props: Props) {
     }
   }, []);
 
+  //====================HELPER FUNCTIONS====================//
+  // Function expression syntax to save memory
+  const handleClick = () => {
+    alert("dddddddddddd");
+  };
+  //====================HELPER FUNCTIONS====================//
+
   return (
     <>
       <H1Styled>Styled Component</H1Styled>
       <span>Initial Data:</span>
       <p>{JSON.stringify(initialData)}</p>
-      <button onClick={handleClick}>DDDDDDDDDDDDDDD</button>
+      <button onClick={handleClick}>Click Me</button>
     </>
   );
 }
-//====================HELPER FUNCTIONS====================//
-// Function expression syntax to save memory
-const handleClick = () => {
-  alert("dddddddddddd");
-};
-//====================HELPER FUNCTIONS====================//
