@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 
 interface Stock {
   open?: number;
@@ -8,10 +8,10 @@ interface Stock {
 }
 
 export default function StockData() {
-  const searchInput = useRef<HTMLInputElement>(null!);
+  const searchInput = React.useRef<HTMLInputElement>(null!);
 
-  const [stockList, setStockList] = useState([]);
-  const [noResult, setNoResult] = useState(false);
+  const [stockList, setStockList] = React.useState([]);
+  const [noResult, setNoResult] = React.useState(false);
 
   const handleSearch = async () => {
     const date = searchInput.current.value;

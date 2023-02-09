@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 interface Person {
   id?: number;
@@ -20,7 +20,7 @@ student.id = 1; // Can be changed
 // student["type"] = "alien"; // Readonly. Can't be changed
 
 export const ChildComponent = (props: Person) => {
-  useEffect(() => {
+  React.useEffect(() => {
     console.log("Initial code: child");
   }, []);
 

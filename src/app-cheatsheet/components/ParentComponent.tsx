@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React from "react";
 import { ChildComponent } from "./ChildComponent";
 
 import Movies from "./Movies";
@@ -7,19 +7,19 @@ interface Props {}
 
 export const ParentComponent = (props: Props) => {
   const initialCount = 0;
-  const [count, setCount] = useState(initialCount);
+  const [count, setCount] = React.useState(initialCount);
 
-  const [number, setNumber] = useState(666);
+  const [number, setNumber] = React.useState(666);
 
-  const hardToComputeNumber = useMemo(() => {
+  const hardToComputeNumber = React.useMemo(() => {
     return computeHardToComputeNumber(number);
   }, [number]);
 
   const initialName = "Click here to change this state";
-  const [getName, setName] = useState(initialName);
+  const [getName, setName] = React.useState(initialName);
 
   // Runs only once
-  useEffect(() => {
+  React.useEffect(() => {
     singleLineOperation();
     console.log(
       "Initial code: parent. Runs after all of the child components are rendered"
@@ -38,7 +38,7 @@ export const ParentComponent = (props: Props) => {
     alert("This function is from the parent component");
   };
 
-  const valueReference = useRef<HTMLInputElement>(null);
+  const valueReference = React.useRef<HTMLInputElement>(null);
 
   const getValue = () => {
     const value = valueReference.current?.value;
@@ -47,13 +47,13 @@ export const ParentComponent = (props: Props) => {
     }
   };
 
-  const [fullName, setState] = useState({
+  const [fullName, setState] = React.useState({
     firstName: "Jude",
     lastName: "Igot",
   });
 
   // Runs on a specific state change; "state listener"; will only run once a specific state is changed
-  useEffect(() => {
+  React.useEffect(() => {
     console.log("Runs on every state change.");
   }, [fullName]);
 
@@ -85,14 +85,15 @@ export const ParentComponent = (props: Props) => {
     },
   ];
 
-  const [oneTimeStateChange, setOneTimeStateChange] = useState<any>(false); // <any> will allow any data type on state change
+  const [oneTimeStateChange, setOneTimeStateChange] =
+    React.useState<any>(false); // <any> will allow any data type on state change
   const handleOneTimeStateChange = () => {
     if (!oneTimeStateChange) {
       setOneTimeStateChange("Can not be changed");
     }
   };
 
-  const [parentState, setParentState] = useState<string>(
+  const [parentState, setParentState] = React.useState<string>(
     "Initial parent state"
   ); // <any> will allow any data type on state change
   // const changeParentState = (value: string) => {

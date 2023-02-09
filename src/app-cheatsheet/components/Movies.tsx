@@ -1,14 +1,14 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 
 interface Movie {
   Title?: string;
 }
 
 function MovieList() {
-  const searchInputRef = useRef<HTMLInputElement>(null!);
+  const searchInputRef = React.useRef<HTMLInputElement>(null!);
 
-  const [movieList, setMovieList] = useState([]);
-  const [noResult, setNoResult] = useState(false);
+  const [movieList, setMovieList] = React.useState([]);
+  const [noResult, setNoResult] = React.useState(false);
 
   const handleSearch = async () => {
     const year = parseInt(searchInputRef.current.value);
