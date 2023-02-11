@@ -5,11 +5,11 @@ import Data from "./helpers/getData";
 import { Layouts, Modals } from "./components";
 
 //==========STYLE==========//
+import "./styles/main.scss";
 import styled from "styled-components";
 const H1Styled = styled.h1`
   color: blue;
 `;
-import "./styles/main.scss";
 //==========STYLE==========//
 
 interface Props {}
