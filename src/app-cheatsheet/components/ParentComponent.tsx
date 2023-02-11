@@ -212,6 +212,12 @@ export const ParentComponent = (props: Props) => {
       </code>
       <hr />
 
+      <h2>Lazy initial state</h2>
+      <hr />
+
+      <h2>Batch state update</h2>
+      <hr />
+
       <h2>Custom hooks</h2>
       <hr />
     </div>

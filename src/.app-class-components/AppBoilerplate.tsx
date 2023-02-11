@@ -101,7 +101,7 @@ export default class ExampleComponent extends React.Component<Props, State> {
     return (
       <>
         <H1Styled>Styled Class Component</H1Styled>
-        <p>Initial Data:</p>
+        <h5>Initial Data:</h5>
         <p>{JSON.stringify(this.state.data)}</p>
         <button onClick={this.handleClick}>
           You've clicked {count} times.

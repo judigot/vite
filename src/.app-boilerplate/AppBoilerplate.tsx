@@ -15,8 +15,18 @@ const H1Styled = styled.h1`
 interface Props {}
 
 export default function App(props: Props) {
-  const [count, setCount] = React.useState<number>(0);
+  // const [count, setCount] = React.useState<number>(0);
+
+  const [number, setNumber] = React.useState<number>(expensiveCalculation);
+
   const [initialData, setInitialData] = React.useState<string>();
+
+  function expensiveCalculation(): number {
+    console.log("Calculating...");
+    for (let i = 0; i < 3000000000; i++) {}
+    console.log("Done calculating!");
+    return 0;
+  }
 
   React.useEffect(() => {
     // Initial render
@@ -42,8 +52,8 @@ export default function App(props: Props) {
   //====================HELPER FUNCTIONS====================//
   // Function expression syntax to save memory
   const handleClick = () => {
-    if (count !== 5) {
-      setCount(count + 1);
+    if (number !== 5) {
+      setNumber(number + 1);
     }
   };
   //====================HELPER FUNCTIONS====================//
@@ -51,14 +61,12 @@ export default function App(props: Props) {
   return (
     <>
       <H1Styled>Styled Functional Component</H1Styled>
-      <span>Initial Data:</span>
+      <h5>Initial Data:</h5>
       <p>{JSON.stringify(initialData)}</p>
-      <button onClick={handleClick}>You've clicked {count} times.</button>
-
-      <Modals.Bootstrap />
+      <button onClick={handleClick}>You've clicked {number} times.</button>
 
       <div>
-        {[...Array(count)].map((element, i) => {
+        {[...Array(number)].map((element, i) => {
           return <Layouts.Child key={i} index={i + 1} />;
         })}
       </div>
