@@ -18,6 +18,7 @@
     //==========CUSTOM==========//
     "baseUrl": "./src",
     "paths": {
+      "@src/*": ["./*"],
       "@app/*": ["app/*"],
       "@images/*": ["public/images/*"],
       "@fonts/*": ["public/fonts/*"],
