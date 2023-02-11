@@ -204,6 +204,14 @@ export const ParentComponent = (props: Props) => {
       <span>{hardToComputeNumber}</span>
       <hr />
 
+      <h2>Accessing previous state on setState</h2>
+      <code>
+        {
+          "<button onClick={() => setCount(prevCount => prevCount - 1)}>Click Me</button>"
+        }
+      </code>
+      <hr />
+
       <h2>Custom hooks</h2>
       <hr />
     </div>
