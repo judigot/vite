@@ -11,5 +11,5 @@ export default function App(props: Props) {
   // Function expression syntax to save memory
   //====================HELPER FUNCTIONS====================//
 
-  return <div>Child {this.props.index}</div>;
+  return <div>Component</div>;
 }

@@ -2,8 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
-import ChildComponent from "./components/ChildComponent";
-import Data from "./utils/getData";
+import { Layouts, Modals } from "./components";
+import Data from "./helpers/getData";
 
 const H1Styled = styled.h1`
   color: blue;
@@ -52,9 +52,11 @@ export default function App(props: Props) {
       <p>{JSON.stringify(initialData)}</p>
       <button onClick={handleClick}>You've clicked {count} times.</button>
 
+      <Modals.Bootstrap />
+
       <div>
         {[...Array(count)].map((element, i) => {
-          return <ChildComponent key={i} index={i + 1} />;
+          return <Layouts.Child key={i} index={i + 1} />;
         })}
       </div>
     </>
