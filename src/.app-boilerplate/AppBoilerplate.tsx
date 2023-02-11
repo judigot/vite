@@ -58,5 +58,5 @@ export default function App(props: Props) {
         })}
       </div>
     </>
-  ;
+  );
 }
