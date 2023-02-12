@@ -212,6 +212,9 @@ export const ParentComponent = (props: Props) => {
       </code>
       <hr />
 
+      <h2>Router</h2>
+      <hr />
+
       <h2>Lazy initial state</h2>
       <hr />
 
