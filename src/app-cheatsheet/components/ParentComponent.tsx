@@ -1,21 +1,19 @@
 import React from "react";
 import { ChildComponent } from "./ChildComponent";
 
+import Memoization from "./Memoization";
+
 import Movies from "./Movies";
 
 interface Props {}
 
 export const ParentComponent = (props: Props) => {
   const initialCount = 0;
+
   const [count, setCount] = React.useState(initialCount);
 
-  const [number, setNumber] = React.useState(666);
-
-  const hardToComputeNumber = React.useMemo(() => {
-    return computeHardToComputeNumber(number);
-  }, [number]);
-
   const initialName = "Click here to change this state";
+
   const [getName, setName] = React.useState(initialName);
 
   // Runs only once
@@ -191,17 +189,11 @@ export const ParentComponent = (props: Props) => {
       </button>
       <hr />
 
-      <h2>Save value to memory to avoid unnecessary re-renders</h2>
-      <p>
-        When other states are changed and causes to re-render, this function
-        will not run unless the specific state is changed
-      </p>
-      <input
-        type="number"
-        value={number}
-        onChange={(e) => setNumber(number + 1)}
-      />
-      <span>{hardToComputeNumber}</span>
+      <Memoization />
+      <hr />
+
+      <h2>Persist a value (won't reset to the initial value)</h2>
+      <code>const refObject = useRef(0)</code>
       <hr />
 
       <h2>Accessing previous state on setState</h2>
@@ -227,5 +219,6 @@ export const ParentComponent = (props: Props) => {
   );
 };
 const computeHardToComputeNumber = (number: number) => {
+  for (let i = 0; i < 3000000000; i++) {}
   return number * 2;
 };

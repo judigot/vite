@@ -35,6 +35,10 @@ export default function App(props: Props) {
     }
 
     async function getData() {
+      // const response = await Data();
+      // const data = await response.json();
+      // setInitialData(data);
+
       Data()
         .then((result) => {
           // Success
@@ -48,6 +52,10 @@ export default function App(props: Props) {
         });
     }
   }, []);
+
+  React.useEffect(() => {
+    // Runs after every successful render or state change
+  });
 
   //====================HELPER FUNCTIONS====================//
   // Function expression syntax to save memory
