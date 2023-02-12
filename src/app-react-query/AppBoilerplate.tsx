@@ -1,6 +1,6 @@
 import React from "react";
 
-import Table from "./Table";
+import ReactQuery from "./ReactQuery";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -17,7 +17,7 @@ export default function App(props: Props) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Table />
+      <ReactQuery />
     </QueryClientProvider>
   );
 }

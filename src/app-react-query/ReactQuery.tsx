@@ -103,7 +103,12 @@ export default function App(props: Props) {
   //   return setMessage(JSON.stringify(isFetchedAfterMount));
   // if (isFetching) return setMessage(JSON.stringify(isFetching));
   // if (isPaused) return setMessage(JSON.stringify(isPaused));
-  // if (isLoading) return setMessage(JSON.stringify(isLoading));
+  if (isLoading)
+    return (
+      <>
+        <h1>{JSON.stringify(isLoading)}</h1>
+      </>
+    );
   // if (isLoadingError) return setMessage(JSON.stringify(isLoadingError));
   // if (isPlaceholderData) return setMessage(JSON.stringify(isPlaceholderData));
   // if (isPreviousData) return setMessage(JSON.stringify(isPreviousData));
@@ -125,18 +130,20 @@ export default function App(props: Props) {
 
   return (
     <>
-      <h1>{message}</h1>
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <h1>{message}</h1>
 
-      <p>
-        <a
-          href="https://tanstack.com/query/v4/docs/react/community/tkdodos-blog"
-          target="_blank"
-        >
-          TanStack React Query Best Practices
-        </a>
-      </p>
+        <p>
+          <a
+            href="https://tanstack.com/query/v4/docs/react/community/tkdodos-blog"
+            target="_blank"
+          >
+            TanStack React Query Best Practices
+          </a>
+        </p>
 
-      <code>{JSON.stringify(data)}</code>
+        <code>{JSON.stringify(data)}</code>
+      </React.Suspense>
     </>
   );
 }
