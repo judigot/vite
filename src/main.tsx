@@ -1,4 +1,4 @@
-import App from "./app-react-query";
+import App from "./app-datatables";
 
 import ReactDOM from "react-dom/client";
 
