@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import styled from "styled-components";
-import "@/styles/App.styled";
 import InsertEmployeeForm from "./InsertEmployeeForm";
 import Actions from "./Actions";
 import EmployeesTable from "./EmployeesTable";
