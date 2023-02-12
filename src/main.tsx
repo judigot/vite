@@ -1,4 +1,4 @@
-import App from "./app-cheatsheet";
+import App from "./app-react-query";
 
 import ReactDOM from "react-dom/client";
 
