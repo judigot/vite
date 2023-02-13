@@ -44,6 +44,10 @@ export default function App(props: Props) {
 
   const [rowValues, setRowValues] = React.useState<Array<any>>([]);
 
+  let columnNameAliases = React.useRef<string[]>([]);
+
+  let oldCellValue = React.useRef<string>("");
+
   function extractData(result: Object[]) {
     const array = result;
     const columnNames = Object.keys(array[0]);
@@ -62,6 +66,7 @@ export default function App(props: Props) {
     Data()
       .then((result) => {
         // Success
+        columnNameAliases.current = Object.keys(result[0]);
         setColumnNames(props.columnNames || extractData(result).columnNames);
         setRowValues(extractData(result).rowValues);
       })
@@ -72,8 +77,6 @@ export default function App(props: Props) {
         // Finally
       });
   }
-
-  const [initialData, setInitialData] = React.useState<Object[]>();
 
   React.useEffect(() => {
     // Initial render
@@ -196,31 +199,71 @@ export default function App(props: Props) {
     selectableRowsHideCheckboxes: true, // Show/Hide row checkboxes
     selectableRowsHeader: false, // Show/Hide select-all-rows checkbox
 
-    // customRowRender: (row: string[], rowIndex: number) => {
-    //   return (
-    //     <TableRow key={rowIndex}>
-    //       {/* <TableCell>
-    //         <Checkbox />
-    //       </TableCell> */}
-    //       {row.map((cellValue, i) => {
-    //         return (
-    //           <TableCell
-    //             onDoubleClick={(e) => {
-    //               if (e !== null && e.target instanceof HTMLElement) {
-    //                 const rowID = e.target.dataset.rowId;
-    //                 alert(`rowID: ${rowID}\nCell Value: ${e.target.innerHTML}`);
-    //               }
-    //             }}
-    //             data-row-id={rowIndex}
-    //             key={i}
-    //           >
-    //             {cellValue}
-    //           </TableCell>
-    //         );
-    //       })}
-    //     </TableRow>
-    //   );
-    // },
+    customRowRender: (row: string[], rowIndex: number) => {
+      return (
+        <TableRow key={rowIndex}>
+          {/* <TableCell>
+            <Checkbox />
+          </TableCell> */}
+          {row.map((cellValue: string, cellIndex: number) => {
+            return (
+              <TableCell
+                // contentEditable="true"
+                // suppressContentEditableWarning={true}
+                onBlur={(e) => {
+                  e.target.setAttribute("contenteditable", "false");
+                  if (e.target.dataset.rowId) {
+                    const rowID: number = parseInt(e.target.dataset.rowId);
+
+                    fetch(`http://localhost:5000/api/users/${rowID}`, {
+                      // *GET, POST, PATCH, PUT, DELETE
+                      method: "PATCH",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                      // For POST/PUT requests
+                      body: JSON.stringify({
+                        columnName: columnNameAliases.current[cellIndex],
+                        newValue: e.target.innerHTML,
+                      }),
+                    })
+                      .then((response) => response.json())
+                      .then((result) => {
+                        // Success
+                        if (!result.affectedRows) {
+                          e.target.innerHTML = oldCellValue.current;
+                          console.log("Failed to update cell value");
+                        }
+                      })
+                      .catch((error) => {
+                        // Failure
+                        e.target.innerHTML = oldCellValue.current;
+                        throw new Error(error);
+                      });
+                  }
+
+                  // alert(
+                  //   `Row ID: ${rowID}\nCell Column Index: ${cellIndex}\nCell Value: ${e.target.innerHTML}`
+                  // );
+                }}
+                onDoubleClick={(e) => {
+                  if (e !== null && e.target instanceof HTMLElement) {
+                    oldCellValue.current = e.target.innerHTML;
+                    e.target.setAttribute("contenteditable", "true");
+                    e.target.focus();
+                  }
+                }}
+                data-row-id={row[0]}
+                key={cellIndex}
+              >
+                {cellValue}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      );
+    },
   };
 
   return (
@@ -355,7 +398,7 @@ export default function App(props: Props) {
           </Select>
         </FormControl> */}
 
-        <div>
+        <div style={{ userSelect: "none" }}>
           {isLoading && <h1>Loading</h1>}
 
           {!isLoading && (
