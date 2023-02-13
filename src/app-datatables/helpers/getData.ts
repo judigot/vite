@@ -1,5 +1,5 @@
 export default async function getData() {
-  return await fetch(`https://www.boredapi.com/api/activity`, {
+  return await fetch(`http://localhost:5000/api/users`, {
     // *GET, POST, PUT, DELETE
     method: "GET",
     headers: {
