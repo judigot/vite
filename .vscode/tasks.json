@@ -1,0 +1,18 @@
+{
+    "tasks": [
+        {
+            "label": "Start Development Server",
+            "script": "build",
+            "type": "npm",
+            "group": {
+                "kind": "dev",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "Run Tests",
+            "script": "test",
+            "type": "npm",
+        },
+    ]
+}
