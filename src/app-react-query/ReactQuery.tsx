@@ -1,6 +1,27 @@
 import React from "react";
 
-import Data from "./helpers/getData";
+async function Data({ queryKey }: any) {
+  const { searchQuery } = queryKey[1];
+
+  console.log(searchQuery);
+
+  // return await fetch(`http://localhost:5000/api/users`, {
+  return await fetch(`https://www.boredapi.com/api/activity`, {
+    // *GET, POST, PUT, DELETE
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    // For POST/PUT requests
+    // body: JSON.stringify({ key: "value" }),
+  })
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => {
+      // Failure
+    });
+}
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,8 +30,10 @@ interface Props {}
 export default function App(props: Props) {
   const [message, setMessage] = React.useState<string>(``);
 
+  const searchRef = React.useRef<HTMLInputElement>(null!);
+
   const {
-    data,
+    data: customDataName,
     dataUpdatedAt,
     error,
     errorUpdatedAt,
@@ -35,7 +58,7 @@ export default function App(props: Props) {
     status,
     fetchStatus,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", { searchQuery: searchRef.current?.value }],
     queryFn: Data, // Function to fetch data
     //==========BEHAVIOR==========//
     cacheTime: 5 * 60000, // 5 minutes
@@ -47,7 +70,7 @@ export default function App(props: Props) {
     //
     //
     initialData: () => {
-      Data()
+      Data({ queryKey: "initialData" })
         .then((result) => {
           // Success
           return result;
@@ -133,6 +156,17 @@ export default function App(props: Props) {
       <React.Suspense fallback={<div>Loading...</div>}>
         <h1>{message}</h1>
 
+        <input
+          onChange={() => {
+            refetch();
+          }}
+          autoFocus
+          required
+          ref={searchRef}
+          type="text"
+          name="username"
+        />
+
         <p>
           <a
             href="https://tanstack.com/query/v4/docs/react/community/tkdodos-blog"
@@ -142,7 +176,7 @@ export default function App(props: Props) {
           </a>
         </p>
 
-        <code>{JSON.stringify(data)}</code>
+        <code>{JSON.stringify(customDataName)}</code>
       </React.Suspense>
     </>
   );
