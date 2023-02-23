@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Authentication from "./utils/Authentication";
 
+// Conditional rendering based whether if the user is authenticated or not
 const auth:
   | void
   | {
