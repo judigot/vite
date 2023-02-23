@@ -24,7 +24,7 @@ const LoginForm = (props: Props) => {
 
     if (username && password) {
       axios
-        .post("http://localhost:5000/login", {
+        .post("http://localhost:5000/api/auth", {
           username: username,
           password: password,
         })
