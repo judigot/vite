@@ -1,4 +1,4 @@
-import App from "./app-datatables";
+import App from "./app-auth";
 
 import ReactDOM from "react-dom/client";
 
