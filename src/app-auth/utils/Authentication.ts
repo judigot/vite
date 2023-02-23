@@ -37,7 +37,7 @@ const auth: () => Promise<
       {},
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: accessToken ? `Bearer ${accessToken}` : ``,
         },
       }
     )
