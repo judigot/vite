@@ -13,7 +13,7 @@ const User = (props: Props) => {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:5000/user/logout",
+        "http://localhost:5000/api/auth/logout",
         {},
         {
           headers: {
