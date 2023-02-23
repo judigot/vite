@@ -31,16 +31,17 @@ const LoginForm = (props: Props) => {
         .then((res) => {
           const data: { [key: string]: boolean } = res.data;
           if (res.status === 200 && res.statusText === "OK") {
-            if (data.userExists && data.passWordValid) {
+            if (data && data.accessToken) {
               // Successful login
+              setMessage("Correct password!");
               localStorage.setItem("accessToken", data.accessToken.toString());
               window.location.reload();
             }
-            if (data.userExists && !data.passWordValid) {
+            if (data && !data.accessToken) {
               // Failed login
               setMessage("Wrong password!");
             }
-            if (!data.userExists) {
+            if (!data) {
               // User does not exist
               setMessage("User does not exist!");
             }
