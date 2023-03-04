@@ -46,6 +46,7 @@ const User = (props: Props) => {
   return (
     <>
       <h1>Welcome back, {user?.username}</h1>
+      <p>Payload: {JSON.stringify(user)}</p>
       <form
         onSubmit={(e) => {
           handleSubmit(e);
