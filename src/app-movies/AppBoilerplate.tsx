@@ -26,10 +26,6 @@ const App: FC = () => {
 
   let moviesRef: any = React.useRef([]);
 
-  // const [visibilityDetails, setVisibilityDetails] = React.useState<{
-  //   [key: string]: any;
-  // }>({ 505642: true, 1077280: true });
-
   React.useEffect(() => {
     const API_KEY = "e3a89ca39100bceea4b71882246c87ff";
     const URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=1`;
@@ -55,7 +51,6 @@ const App: FC = () => {
           const mutated = { ...row, ...mutation };
           mutatedMovies.push(mutated);
         });
-
         setInitialData(mutatedMovies);
       })
       .catch((error) => {
@@ -66,34 +61,16 @@ const App: FC = () => {
       });
   }, []);
 
-  const expandAll = () => {
+  const toggleAllOverviews = (isVisible: boolean) => {
     const mutatedMovies: object[] = [];
     initialData.map((row: { [key: string]: string | number }, i: number) => {
       const mutation = {
-        isVisible: true,
+        isVisible,
       };
       const mutated = { ...row, ...mutation };
       mutatedMovies.push(mutated);
     });
     setInitialData(mutatedMovies);
-  };
-
-  const collapseAll = () => {
-    const mutatedMovies: object[] = [];
-    initialData.map((row: { [key: string]: string | number }, i: number) => {
-      const mutation = {
-        isVisible: false,
-      };
-      const mutated = { ...row, ...mutation };
-      mutatedMovies.push(mutated);
-    });
-    setInitialData(mutatedMovies);
-    // Array.prototype.forEach.call(
-    //   document.querySelectorAll(".overview"),
-    //   function (element, i) {
-    //     element.classList.add("hidden");
-    //   }
-    // );
   };
 
   const sort = (sortType: string) => {
@@ -155,23 +132,29 @@ const App: FC = () => {
         };
       }
     }
-
     const mutatedMovie = { ...targetMovie, ...mutation };
-
     let newMovies = [...initialData];
-
     newMovies[targetMovieIndex!] = mutatedMovie;
-
     setInitialData(newMovies);
   };
 
   return (
     <>
       <CenterDiv>
-        <button onClick={expandAll} type="button">
+        <button
+          onClick={() => {
+            toggleAllOverviews(true);
+          }}
+          type="button"
+        >
           Expand All
         </button>
-        <button onClick={collapseAll} type="button">
+        <button
+          onClick={() => {
+            toggleAllOverviews(false);
+          }}
+          type="button"
+        >
           Collapse All
         </button>
         <button
