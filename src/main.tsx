@@ -1,4 +1,4 @@
-import App from "./app-movies";
+import App from "./.app-boilerplate";
 
 import ReactDOM from "react-dom/client";
 
