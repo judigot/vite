@@ -1,4 +1,5 @@
 import React from "react";
+import AccessChildState from "./AccessChildState";
 import { ChildComponent } from "./ChildComponent";
 
 import Memoization from "./Memoization";
@@ -113,6 +114,11 @@ export const ParentComponent = (props: Props) => {
       <hr />
 
       <h2>*Check console for the initial code</h2>
+      <hr />
+
+      <h2>
+        <AccessChildState />
+      </h2>
       <hr />
 
       <h2>"Prop drilling"</h2>
