@@ -75,7 +75,9 @@ export default function App(props: Props) {
 
       <div>
         {[...Array(number)].map((element, i) => {
-          return <Layouts.Child key={i} index={i + 1} />;
+          return (
+            <Layouts.Child key={i} name={"Firstname Lastname"} index={i + 1} />
+          );
         })}
       </div>
     </>
