@@ -96,10 +96,10 @@ const App: FC = () => {
       sortedObject.sort((a: any, b: any) => {
         if (a[sortBy] === b[sortBy]) {
           // If two elements have same number, sort using a different category
-          return a[sortByAlternative] - b[sortByAlternative];
+          return -(b[sortByAlternative] - a[sortByAlternative]);
         } else {
           // If two elements have different number, then the one who has larger number wins
-          return a[sortBy] - b[sortBy];
+          return -(b[sortBy] - a[sortBy]);
         }
       });
     }
