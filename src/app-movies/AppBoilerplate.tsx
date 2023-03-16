@@ -74,14 +74,14 @@ const App: FC = () => {
   };
 
   const sort = (sortType: string) => {
-    const objectClone = structuredClone(initialData);
+    const sortedObject = structuredClone(initialData);
 
     const sortBy = "vote_average";
 
     const sortByAlternative = "average";
 
     if (sortType === "asc") {
-      objectClone.sort((a: any, b: any) => {
+      sortedObject.sort((a: any, b: any) => {
         if (a[sortBy] === b[sortBy]) {
           // If two elements have same number, sort using a different category
           return b[sortByAlternative] - a[sortByAlternative];
@@ -93,7 +93,7 @@ const App: FC = () => {
     }
 
     if (sortType === "desc") {
-      objectClone.sort((a: any, b: any) => {
+      sortedObject.sort((a: any, b: any) => {
         if (a[sortBy] === b[sortBy]) {
           // If two elements have same number, sort using a different category
           return a[sortByAlternative] - b[sortByAlternative];
@@ -103,7 +103,7 @@ const App: FC = () => {
         }
       });
     }
-    setInitialData(objectClone);
+    setInitialData(sortedObject);
   };
 
   const addToRefs = (element: any) => {
