@@ -76,33 +76,17 @@ const App: FC = () => {
   const sort = (sortType: string) => {
     const sortedObject = structuredClone(initialData);
 
-    const sortBy = "vote_average";
+    const vote_average = "vote_average"; // 1st priority
+    const sortByPopularity = "popularity"; // 2nd priority
 
-    const sortByAlternative = "average";
+    sortedObject.sort((a: any, b: any) => {
+      return (
+        (sortType === "asc" ? 1 : -1) * // Negate result for descending
+        (a[vote_average] - b[vote_average] || // Main priority
+          a[sortByPopularity] - b[sortByPopularity]) // Use another category if the former category values are equal
+      );
+    });
 
-    if (sortType === "asc") {
-      sortedObject.sort((a: any, b: any) => {
-        if (a[sortBy] === b[sortBy]) {
-          // If two elements have same number, sort using a different category
-          return -(b[sortByAlternative] - a[sortByAlternative]);
-        } else {
-          // If two elements have different number, then the one who has larger number wins
-          return -(b[sortBy] - a[sortBy]);
-        }
-      });
-    }
-
-    if (sortType === "desc") {
-      sortedObject.sort((a: any, b: any) => {
-        if (a[sortBy] === b[sortBy]) {
-          // If two elements have same number, sort using a different category
-          return b[sortByAlternative] - a[sortByAlternative];
-        } else {
-          // If two elements have different number, then the one who has larger number wins
-          return b[sortBy] - a[sortBy];
-        }
-      });
-    }
     setInitialData(sortedObject);
   };
 
