@@ -74,32 +74,36 @@ const App: FC = () => {
   };
 
   const sort = (sortType: string) => {
-    const temp = structuredClone(initialData);
+    const objectClone = structuredClone(initialData);
+
+    const sortBy = "vote_average";
+
+    const sortByAlternative = "average";
 
     if (sortType === "asc") {
-      temp.sort((a: any, b: any) => {
-        if (a.vote_average === b.vote_average) {
-          // If two elements have same number, then the one who has larger rating.average wins
-          return b.vote_average - a.vote_average;
+      objectClone.sort((a: any, b: any) => {
+        if (a[sortBy] === b[sortBy]) {
+          // If two elements have same number, sort using a different category
+          return b[sortByAlternative] - a[sortByAlternative];
         } else {
           // If two elements have different number, then the one who has larger number wins
-          return b.vote_average - a.vote_average;
+          return b[sortBy] - a[sortBy];
         }
       });
     }
 
     if (sortType === "desc") {
-      temp.sort((a: any, b: any) => {
-        if (a.vote_average === b.vote_average) {
-          // If two elements have same number, then the one who has larger rating.average wins
-          return a.vote_average - b.vote_average;
+      objectClone.sort((a: any, b: any) => {
+        if (a[sortBy] === b[sortBy]) {
+          // If two elements have same number, sort using a different category
+          return a[sortByAlternative] - b[sortByAlternative];
         } else {
           // If two elements have different number, then the one who has larger number wins
-          return a.vote_average - b.vote_average;
+          return a[sortBy] - b[sortBy];
         }
       });
     }
-    setInitialData(temp);
+    setInitialData(objectClone);
   };
 
   const addToRefs = (element: any) => {
