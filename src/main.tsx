@@ -1,4 +1,4 @@
-import App from "./app-pos";
+import App from "./app-salesmaster";
 
 import ReactDOM from "react-dom/client";
 
