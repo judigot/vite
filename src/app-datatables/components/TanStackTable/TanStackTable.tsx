@@ -121,7 +121,7 @@ export default function App() {
         onKeyUpCapture={filterRows}
         placeholder="Search for names.."
         title="Type in a name"
-      ></input>
+      />
 
       <button onClick={fetchData}>Fetch Data</button>
       <table>
