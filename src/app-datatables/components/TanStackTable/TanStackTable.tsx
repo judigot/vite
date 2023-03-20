@@ -80,6 +80,13 @@ export default function App() {
               ))}
             </tr>
           ))}
+          {table.getRowModel().rows.length === 0 && (
+            <tr>
+              <td colSpan={4} style={{ textAlign: "center" }}>
+                Loading
+              </td>
+            </tr>
+          )}
         </tbody>
         <tfoot>
           {table.getFooterGroups().map((footerGroup) => (
