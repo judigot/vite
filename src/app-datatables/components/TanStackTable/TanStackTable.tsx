@@ -95,19 +95,16 @@ export default function App() {
   const query = React.useRef<HTMLInputElement>(null!);
 
   function filterRows() {
-    const queryVal: string = query.current.value;
-    var filter, table, tr, td, i, txtValue;
-    filter = queryVal.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table!.getElementsByTagName("tr");
+    const searchQuery: string = query.current.value.toUpperCase();
 
-    for (i = 0; i < tr.length; i++) {
-      // txtValue = tr[i].innerHTML.toUpperCase();
-      txtValue = tr[i].textContent || tr[i].innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
+    const rows = document.querySelector("#myTable")!.getElementsByTagName("tr");
+
+    for (let i = 0, arrayLength = rows.length; i < arrayLength; i++) {
+      const rowContent = rows[i].textContent || rows[i].innerText;
+      if (rowContent.toUpperCase().includes(searchQuery)) {
+        rows[i].style.display = "";
       } else {
-        tr[i].style.display = "none";
+        rows[i].style.display = "none";
       }
     }
   }
