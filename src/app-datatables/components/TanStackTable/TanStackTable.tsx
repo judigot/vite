@@ -1,90 +1,24 @@
 import React from "react";
 
 import {
-  createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
-interface Person {
-  firstName: string;
-  lastName: string;
-  age: number;
-}
-
-const defaultData = [
-  {
-    firstName: "tanner",
-    lastName: "linsley",
-    age: 24,
-  },
-  {
-    firstName: "tandy",
-    lastName: "miller",
-    age: 40,
-  },
-  {
-    firstName: "joe",
-    lastName: "dirte",
-    age: 45,
-  },
-];
-
-const columnHelper = createColumnHelper<Person>();
-// const columnHelper = createColumnHelper<typeof defaultData[0]>();
-
-const columns = [
-  columnHelper.accessor((row) => row.firstName, {
-    id: "First Name",
-    header: (info) => {
-      return <i>{info.column.id}</i>;
-    },
-    cell: (info) => {
-      const cellData = info.getValue();
-      return <span>{cellData}</span>;
-    },
-    // footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.lastName, {
-    id: "Last Name",
-    header: (info) => {
-      return <span>{info.column.id}</span>;
-    },
-    cell: (info) => {
-      const cellData = info.getValue();
-      return <span>{cellData}</span>;
-    },
-    // footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.age, {
-    id: "Age",
-    header: (info) => {
-      return <span>{info.column.id}</span>;
-    },
-    cell: (info) => {
-      const cellData = info.getValue();
-      return <span>{cellData}</span>;
-    },
-    // footer: (info) => info.column.id,
-  }),
-];
+import Data, { Datatype, columns } from "./TableInfo";
 
 export default function App() {
-  const [data, setData] = React.useState(() => [...defaultData]);
+  const [data, setData] = React.useState<Datatype[]>([]);
+
+  React.useEffect(() => {
+    (async () => {
+      const data: Datatype[] = await Data();
+      setData([...data]);
+    })();
+  }, []);
 
   const rerender = React.useReducer(() => ({}), {})[1];
-
-  const fetchData = () => {
-    const newData = [
-      {
-        firstName: "Jude Francis",
-        lastName: "Igot",
-        age: 25,
-      },
-    ];
-    setData([...newData]);
-  };
 
   const table = useReactTable({
     data,
@@ -119,8 +53,6 @@ export default function App() {
         placeholder="Search for names.."
         title="Type in a name"
       />
-
-      <button onClick={fetchData}>Fetch Data</button>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
