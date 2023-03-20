@@ -31,7 +31,11 @@ export default function App() {
   function filterRows() {
     const searchQuery: string = query.current.value.toUpperCase();
 
-    const rows = document.querySelector("#myTable")!.getElementsByTagName("tr");
+    const rows = document
+      .querySelector("#myTable")!
+      .querySelectorAll(
+        ".searchable"
+      ) as unknown as HTMLCollectionOf<HTMLElement>;
 
     for (let i = 0, arrayLength = rows.length; i < arrayLength; i++) {
       const rowContent = rows[i].textContent || rows[i].innerText;
@@ -72,7 +76,7 @@ export default function App() {
         </thead>
         <tbody id="myTable">
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr className="searchable" key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
