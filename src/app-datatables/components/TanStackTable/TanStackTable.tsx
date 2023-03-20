@@ -1,12 +1,13 @@
 import React from "react";
 
+import Data, { Datatype, columns } from "./TableInfo";
+
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
-import Data, { Datatype, columns } from "./TableInfo";
 
 export default function App() {
   const [data, setData] = React.useState<Datatype[]>([]);
