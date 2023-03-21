@@ -21,7 +21,7 @@ interface Props {
 
 interface Order {
   order_id: number;
-  customer_id: number;
+  customer: string;
   orderProducts: OrderItems[];
   order_date: Date;
 }
@@ -29,7 +29,7 @@ interface Order {
 interface OrderItems {
   id: number;
   order_id: number;
-  product_id: number;
+  product_name: number | string;
   quantity: number;
   product_cost: number;
   product_price: number;
@@ -101,7 +101,7 @@ export const OrderItems = ({ items }: Props) => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="right">{item.quantity}</TableCell>
-                  <TableCell align="right">{item.product_id}</TableCell>
+                  <TableCell align="right">{item.product_name}</TableCell>
                   <TableCell align="right">₱ {item.product_cost}</TableCell>
                   <TableCell align="right">₱ {item.product_price}</TableCell>
                   <TableCell align="right">₱ {totalAmount}</TableCell>
@@ -204,7 +204,7 @@ export function BasicTable() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{order.order_id}</TableCell>
-                  <TableCell align="right">{order.customer_id}</TableCell>
+                  <TableCell align="right">{order.customer}</TableCell>
                   <TableCell align="right">
                     <OrderItems items={order.orderProducts} />
                     {/* {JSON.stringify(order.orderProducts, null, 2)} */}

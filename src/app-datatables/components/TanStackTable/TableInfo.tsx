@@ -1,20 +1,25 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { OrderItems } from "@src/app-salesmaster/components/OrdersTable";
+import ClickToSearch from "@src/app-salesmaster/components/ClickToSearch";
 
 const columnHelper = createColumnHelper<Datatype>();
 
 export interface Datatype {
   order_id: number;
-  customer_id: number;
-  orderProducts: Array<any>;
+  customer: string;
+  order_product: Array<any>;
   order_date: Date;
 }
 
 export const customColumnNames: { [key: string]: string } = {
   order_id: "Order ID",
-  customer_id: "Customer ID",
+  customer: "Customer ID",
   orderProducts: "Order Products",
   order_date: "Date",
+};
+
+const handleClick = (item: string) => {
+  alert(item);
 };
 
 export const columns = [
@@ -29,18 +34,18 @@ export const columns = [
     },
     // footer: (info) => info.column.id,
   }),
-  columnHelper.accessor((row) => row.customer_id, {
-    id: "Customer ID",
+  columnHelper.accessor((row) => row.customer, {
+    id: "Customer",
     header: (info) => {
       return <i>{info.column.id}</i>;
     },
     cell: (info) => {
       const cellData = info.getValue();
-      return cellData;
+      return <ClickToSearch behavior={handleClick} item={cellData} />;
     },
     // footer: (info) => info.column.id,
   }),
-  columnHelper.accessor((row) => row.orderProducts, {
+  columnHelper.accessor((row) => row.order_product, {
     id: "Order Products",
     header: (info) => {
       return <span>{info.column.id}</span>;
@@ -79,11 +84,18 @@ export const columns = [
       });
 
       return (
-        <>
-          <div style={{ display: "none" }}>hidden</div>
-          {`${month} ${day}, ${year} at ${time}`}
-        </>
+        <ClickToSearch
+          behavior={handleClick}
+          item={`${month} ${day}, ${year} at ${time}`}
+        />
       );
+
+      // return (
+      //   <>
+      //     <div style={{ display: "none" }}>hidden</div>
+      //     {`${month} ${day}, ${year} at ${time}`}
+      //   </>
+      // );
     },
     // footer: (info) => info.column.id,
   }),
