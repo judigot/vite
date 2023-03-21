@@ -78,8 +78,7 @@ export const OrderItems = ({ items }: Props) => {
               const totalAmount = item.quantity * item.product_price;
 
               const totalProfit =
-                item.quantity * item.product_price -
-                item.quantity * item.product_cost;
+                totalAmount + -item.quantity * item.product_cost;
 
               localStorage.setItem(
                 "totalItems",
