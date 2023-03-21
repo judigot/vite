@@ -62,11 +62,11 @@ export const OrderItems = ({ items }: Props) => {
       {localStorage.setItem("totalAmount", "0")}
       {localStorage.setItem("totalProfit", "0")}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="right">Quantity</TableCell>
               <TableCell align="right">Product</TableCell>
+              <TableCell align="right">Quantity</TableCell>
               <TableCell align="right">Cost</TableCell>
               <TableCell align="right">Price</TableCell>
               <TableCell align="right">Amount</TableCell>
@@ -100,8 +100,8 @@ export const OrderItems = ({ items }: Props) => {
                   key={item.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+                  <TableCell align="left">{item.product_name}</TableCell>
                   <TableCell align="right">{item.quantity}</TableCell>
-                  <TableCell align="right">{item.product_name}</TableCell>
                   <TableCell align="right">₱ {item.product_cost}</TableCell>
                   <TableCell align="right">₱ {item.product_price}</TableCell>
                   <TableCell align="right">₱ {totalAmount}</TableCell>
@@ -113,11 +113,12 @@ export const OrderItems = ({ items }: Props) => {
               key={JSON.stringify(items)}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
+              <TableCell colSpan={1}></TableCell>
               <TableCell align="right">
                 Total items:
                 <span>&nbsp;{eval(localStorage.getItem("totalItems")!)}</span>
               </TableCell>
-              <TableCell colSpan={3}></TableCell>
+              <TableCell colSpan={2}></TableCell>
               <TableCell align="right">
                 Total amount:
                 <span>
@@ -185,7 +186,7 @@ export function BasicTable() {
       {/* <p>{JSON.stringify(initialData!)}</p> */}
       {initialData && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label="Orders table">
             <TableHead>
               <TableRow>
                 <TableCell align="right">Order ID</TableCell>
