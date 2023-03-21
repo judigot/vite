@@ -36,6 +36,8 @@ interface OrderItems {
   discount: number;
 }
 
+const CURRENCY = "₱";
+
 export default function Datatable() {
   return (
     <MUIDataTable
@@ -74,40 +76,76 @@ export const OrderItems = ({ items }: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item: OrderItems, i: number) => {
-              const totalAmount = item.quantity * item.product_price;
+            {items.map(
+              (
+                {
+                  id,
+                  order_id,
+                  product_name,
+                  quantity,
+                  product_cost,
+                  product_price,
+                  discount,
+                }: OrderItems,
+                i: number
+              ) => {
+                const amount = quantity * product_price;
+                const profit = amount - quantity * product_cost - discount;
 
-              const totalProfit =
-                totalAmount + -item.quantity * item.product_cost;
+                const totalAmount =
+                  localStorage.getItem("totalAmount")! +
+                  `+${amount - discount}`;
 
-              localStorage.setItem(
-                "totalItems",
-                localStorage.getItem("totalItems")! + `+${item.quantity}`
-              );
+                const totalProfit =
+                  localStorage.getItem("totalProfit")! + `+${profit}`;
 
-              localStorage.setItem(
-                "totalAmount",
-                localStorage.getItem("totalAmount")! + `+${totalAmount}`
-              );
+                localStorage.setItem(
+                  "totalItems",
+                  localStorage.getItem("totalItems")! + `+${quantity}`
+                );
 
-              localStorage.setItem(
-                "totalProfit",
-                localStorage.getItem("totalProfit")! + `+${totalProfit}`
-              );
-              return (
-                <TableRow
-                  key={item.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="left">{item.product_name}</TableCell>
-                  <TableCell align="right">{item.quantity}</TableCell>
-                  <TableCell align="right">₱ {item.product_cost}</TableCell>
-                  <TableCell align="right">₱ {item.product_price}</TableCell>
-                  <TableCell align="right">₱ {totalAmount}</TableCell>
-                  <TableCell align="right">₱ {totalProfit}</TableCell>
-                </TableRow>
-              );
-            })}
+                localStorage.setItem("totalAmount", totalAmount);
+                localStorage.setItem("totalProfit", totalProfit);
+                return (
+                  <TableRow
+                    key={id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="left">{product_name}</TableCell>
+                    <TableCell align="right">{quantity}</TableCell>
+                    <TableCell align="right">
+                      {CURRENCY} {product_cost}
+                    </TableCell>
+                    <TableCell align="right">
+                      {CURRENCY} {product_price}
+                    </TableCell>
+                    <TableCell align="right">
+                      {CURRENCY} {amount}
+                      {discount !== 0 ? (
+                        <>
+                          &nbsp;
+                          <i
+                            style={{
+                              color: "black",
+                              padding: "5px",
+                              borderRadius: "5px",
+                              backgroundColor: "lightgreen",
+                            }}
+                          >
+                            ({CURRENCY} {discount} discount)
+                          </i>
+                        </>
+                      ) : (
+                        false
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      {CURRENCY} {profit}
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+            )}
             <TableRow
               key={JSON.stringify(items)}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -121,13 +159,13 @@ export const OrderItems = ({ items }: Props) => {
               <TableCell align="right">
                 Total amount:
                 <span>
-                  &nbsp;₱ {eval(localStorage.getItem("totalAmount")!)}
+                  &nbsp;{CURRENCY} {eval(localStorage.getItem("totalAmount")!)}
                 </span>
               </TableCell>
               <TableCell align="right">
                 Total profit:
                 <span>
-                  &nbsp;₱ {eval(localStorage.getItem("totalProfit")!)}
+                  &nbsp;{CURRENCY} {eval(localStorage.getItem("totalProfit")!)}
                 </span>
               </TableCell>
             </TableRow>
