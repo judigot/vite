@@ -26,7 +26,7 @@ interface Order {
   order_date: Date;
 }
 
-interface OrderItems {
+export interface OrderItems {
   id: number;
   order_id: number;
   product_name: number | string;
@@ -38,7 +38,7 @@ interface OrderItems {
 
 const CURRENCY = "₱";
 
-export default function Datatable() {
+export function Datatable() {
   return (
     <MUIDataTable
       title={"Users Table"}
@@ -254,3 +254,4 @@ export function BasicTable() {
     </OrderContainer>
   );
 }
+export default OrderItems;
