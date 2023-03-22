@@ -8,7 +8,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-
 export default function App() {
   const [data, setData] = React.useState<Datatype[]>([]);
 
@@ -77,7 +76,7 @@ export default function App() {
         </thead>
         <tbody id="myTable">
           {table.getRowModel().rows.map((row) => (
-            <tr className="searchable" key={row.id}>
+            <tr className="searchable" key={row.original.order_id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
