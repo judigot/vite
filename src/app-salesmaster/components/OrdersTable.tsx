@@ -152,21 +152,16 @@ export const OrderItems = ({ items }: Props) => {
             >
               <TableCell colSpan={1}></TableCell>
               <TableCell align="right">
-                Total items:
-                <span>&nbsp;{eval(localStorage.getItem("totalItems")!)}</span>
+                Total items: {eval(localStorage.getItem("totalItems")!)}
               </TableCell>
               <TableCell colSpan={2}></TableCell>
               <TableCell align="right">
-                Total amount:
-                <span>
-                  &nbsp;{CURRENCY} {eval(localStorage.getItem("totalAmount")!)}
-                </span>
+                Total amount:{` ${CURRENCY} `}
+                {eval(localStorage.getItem("totalAmount")!)}
               </TableCell>
               <TableCell align="right">
-                Total profit:
-                <span>
-                  &nbsp;{CURRENCY} {eval(localStorage.getItem("totalProfit")!)}
-                </span>
+                Total profit:{` ${CURRENCY} `}
+                {eval(localStorage.getItem("totalProfit")!)}
               </TableCell>
             </TableRow>
           </TableBody>
