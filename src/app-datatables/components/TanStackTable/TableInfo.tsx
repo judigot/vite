@@ -41,7 +41,13 @@ export const columns = [
     },
     cell: (info) => {
       const cellData = info.getValue();
-      return <ClickToSearch behavior={handleClick} item={cellData} />;
+      return (
+        <ClickToSearch
+          forCustomer={true}
+          behavior={handleClick}
+          item={cellData}
+        />
+      );
     },
     // footer: (info) => info.column.id,
   }),
@@ -85,6 +91,7 @@ export const columns = [
 
       return (
         <ClickToSearch
+          forDate={true}
           behavior={handleClick}
           item={`${month} ${day}, ${year} at ${time}`}
         />
