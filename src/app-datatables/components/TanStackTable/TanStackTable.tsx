@@ -54,7 +54,7 @@ export default function App() {
         type="text"
         id="myInput"
         onKeyUpCapture={filterRows}
-        placeholder="Search for names.."
+        placeholder="Search"
         title="Type in a name"
       />
       <table>
