@@ -10,9 +10,11 @@ const ClickableStyled = styled.div`
   border-radius: 10px;
 `;
 
-interface Props {
+export interface Props {
   item: string | number;
   behavior: Function;
+  forCustomer?: boolean;
+  forDate?: boolean;
 }
 
 export const Clickable = ({ item, behavior }: Props) => {
