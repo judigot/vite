@@ -7,7 +7,7 @@ const columnHelper = createColumnHelper<Datatype>();
 export interface Datatype {
   order_id: number;
   customer: string;
-  order_product: Array<any>;
+  order_product: OrderItems[];
   order_date: Date;
 }
 
