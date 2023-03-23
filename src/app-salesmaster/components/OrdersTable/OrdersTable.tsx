@@ -2,7 +2,7 @@ import React from "react";
 
 import Data, { Datatype, columns } from "./TableInfo";
 
-import { OrderDetailsTable } from "@src/app-salesmaster/components/OrdersTable/OrderDetails";
+import { OrderDetails } from "@src/app-salesmaster/components/OrdersTable/OrderDetails";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -27,39 +27,68 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 
-import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
+import { RankingInfo } from "@tanstack/match-sorter-utils";
 import TextField from "@mui/material/TextField/TextField";
+
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import { useSelector } from "react-redux";
+import { RootState } from "@src/app-salesmaster/store";
 
 import styled from "styled-components";
 
-const GridWrapper = styled.div`
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
+const OrdersLayout = styled.div`
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  color: white !important;
+  height: 100px;
+  width: 100%;
+  background-color: black;
+`;
+const OrdersSearch = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  width: 100%;
+`;
+const OrdersBody = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  background-color: black;
+  height: 100%;
+  width: 100%;
+`;
+const OrdersFooter = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* grid-template-rows: repeat(2, 1fr); */
   background-color: black;
   width: 100%;
 `;
 
-const Box1 = styled.div`
+const PageInfoContainer = styled.div`
   color: white;
   padding: 20px;
   margin: auto 0% auto 0%;
 `;
-const Box2 = styled.div``;
 
-const SearchBarContainer = styled.div`
-  /* width: 100%; */
-  background-color: black;
-  padding: 20px;
-  text-align: center;
-`;
-
-const PageActionsContainer = styled.div`
-  background-color: black;
+const PageNavigationContainer = styled.div`
+  /* background-color: black; */
   padding: 20px;
   text-align: right;
   position: relative;
   float: right;
+`;
+
+const SearchBarContainer = styled.div`
+  /* width: 100%; */
+  /* background-color: black; */
+  padding: 20px;
+  text-align: center;
 `;
 
 declare module "@tanstack/table-core" {
@@ -70,23 +99,6 @@ declare module "@tanstack/table-core" {
     itemRank: RankingInfo;
   }
 }
-
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-import {
-  decrement,
-  increment,
-  incrementByAmount,
-} from "@src/app-salesmaster/features/counterSlice";
-
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@src/app-salesmaster/store";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   const masterValues: string[] = [];
@@ -184,24 +196,20 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   rowInStringForm = rowInStringForm.replace(/\s+/g, "").toUpperCase();
 
   if (rowInStringForm.includes(searchInput)) {
-    console.log(rowContent.join(""));
+    // console.log(rowInStringForm);
     return true;
   }
 
   return false;
-
-  // Return true if search input matches the current row
-  return JSON.stringify(rowContent)
-    .toUpperCase()
-    .includes(searchInput.toUpperCase());
 };
 
 export default function App() {
-  const [data, setData] = React.useState<Datatype[]>([]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
+  const searchQuery = useSelector(
+    (state: RootState) => state.searchQuery.query
+  );
 
-  const dispatch = useDispatch();
-  const count = useSelector((state: RootState) => state.searchQuery.query);
+  const [data, setData] = React.useState<Datatype[]>([]);
+  const [globalFilter, setGlobalFilter] = React.useState(searchQuery);
 
   React.useEffect(() => {
     (async () => {
@@ -234,81 +242,85 @@ export default function App() {
   });
 
   return (
-    <div>
-      <button
-        aria-label="Increment value"
-        onClick={() => dispatch(increment())}
-      >
-        Increment
-      </button>
-      <h2>{count}</h2>
-      <ThemeProvider theme={darkTheme}>
-        <SearchBarContainer>
-          <DebouncedInput
-            value={globalFilter ?? ""}
-            onChange={(value) => setGlobalFilter(String(value))}
-            placeholder="Search"
-          />
-        </SearchBarContainer>
-        <TableContainer style={{ maxHeight: 500 }} component={Paper}>
-          <Table stickyHeader>
-            <TableHead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableCell key={header.id} colSpan={header.colSpan}>
-                        {header.isPlaceholder ? null : (
-                          <>
-                            <div
-                              {...{
-                                className: header.column.getCanSort()
-                                  ? "cursor-pointer select-none"
-                                  : "",
-                                onClick:
-                                  header.column.getToggleSortingHandler(),
-                              }}
-                            >
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                              {{
-                                asc: " 🔼",
-                                desc: " 🔽",
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </div>
-                            {header.column.getCanFilter() ? <div></div> : null}
-                          </>
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHead>
-            <TableBody>
-              {table.getRowModel().rows.map((row) => {
-                return (
-                  <TableRow key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
+    <ThemeProvider theme={darkTheme}>
+      <OrdersLayout>
+        <OrdersSearch>
+          {/* <div>Search</div> */}
+          <SearchBarContainer>
+            <DebouncedInput
+              value={searchQuery ?? ""}
+              onChange={(value) => setGlobalFilter(String(value))}
+              placeholder="Search"
+            />
+          </SearchBarContainer>
+        </OrdersSearch>
+        <OrdersBody>
+          <TableContainer style={{ height: 400 }} component={Paper}>
+            <Table stickyHeader>
+              <TableHead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
                       return (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
+                        <TableCell key={header.id} colSpan={header.colSpan}>
+                          {header.isPlaceholder ? null : (
+                            <>
+                              <div
+                                {...{
+                                  className: header.column.getCanSort()
+                                    ? "cursor-pointer select-none"
+                                    : "",
+                                  onClick:
+                                    header.column.getToggleSortingHandler(),
+                                }}
+                              >
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                                <i>
+                                  {{
+                                    asc: "(Ascending)",
+                                    desc: "(Descending)",
+                                  }[header.column.getIsSorted() as string] ??
+                                    null}
+                                </i>
+                              </div>
+                              {header.column.getCanFilter() ? (
+                                <div></div>
+                              ) : null}
+                            </>
                           )}
                         </TableCell>
                       );
                     })}
                   </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <GridWrapper>
-          <Box1>
+                ))}
+              </TableHead>
+              <TableBody>
+                {table.getRowModel().rows.map((row) => {
+                  return (
+                    <TableRow key={row.id}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </OrdersBody>
+        <OrdersFooter>
+          <PageInfoContainer>
+            {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
             <span>{table.getPrePaginationRowModel().rows.length} Orders</span>
             <span> | </span>
             <span className="flex items-center gap-1">
@@ -348,48 +360,44 @@ export default function App() {
                 </option>
               ))}
             </select>
-          </Box1>
-          <Box2>
-            <PageActionsContainer>
-              <Button
-                variant="contained"
-                className="border rounded p-1"
-                onClick={() => table.setPageIndex(0)}
-                disabled={!table.getCanPreviousPage()}
-              >
-                First
-              </Button>
-              <Button
-                variant="contained"
-                className="border rounded p-1"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                Previous
-              </Button>
-              <Button
-                variant="contained"
-                className="border rounded p-1"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                Next
-              </Button>
-              <Button
-                variant="contained"
-                className="border rounded p-1"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
-              >
-                Last
-              </Button>
-            </PageActionsContainer>
-          </Box2>
-        </GridWrapper>
-      </ThemeProvider>
-
-      {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
-    </div>
+          </PageInfoContainer>
+          <PageNavigationContainer>
+            <Button
+              variant="contained"
+              className="border rounded p-1"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              First
+            </Button>
+            <Button
+              variant="contained"
+              className="border rounded p-1"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="contained"
+              className="border rounded p-1"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+            <Button
+              variant="contained"
+              className="border rounded p-1"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              Last
+            </Button>
+          </PageNavigationContainer>
+        </OrdersFooter>
+      </OrdersLayout>
+    </ThemeProvider>
   );
 }
 
@@ -397,13 +405,14 @@ export default function App() {
 function DebouncedInput({
   value: initialValue,
   onChange,
-  debounce = 1000,
+  debounce = 500,
   ...props
 }: {
   value: string | number;
   onChange: (value: string | number) => void;
   debounce?: number;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">) {
+  let timer: NodeJS.Timeout | undefined = undefined;
   const [value, setValue] = React.useState(initialValue);
 
   React.useEffect(() => {
@@ -411,16 +420,16 @@ function DebouncedInput({
   }, [initialValue]);
 
   React.useEffect(() => {
-    const timeout = setTimeout(() => {
+    timer = setTimeout(() => {
       onChange(value);
     }, debounce);
-
-    return () => clearTimeout(timeout);
   }, [value]);
 
   return (
     <TextField
       inputProps={{
+        autoFocus: true,
+        id: "searchInput",
         style: {
           width: "100%",
           backgroundColor: "darkblue",
@@ -428,8 +437,10 @@ function DebouncedInput({
         },
         debounce: 1000,
         value,
-        onChange: (e: React.FormEvent<HTMLInputElement>) =>
-          setValue(e.currentTarget.value),
+        onChange: (e: React.FormEvent<HTMLInputElement>) => {
+          clearTimeout(timer);
+          setValue(e.currentTarget.value);
+        },
       }}
       id="filled-basic"
       label="Search"

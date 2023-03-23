@@ -1,0 +1,168 @@
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+import styled from "styled-components";
+
+const OrderContainer = styled.div`
+  text-align: center;
+`;
+
+interface Props {
+  items: OrderDetails[];
+}
+
+interface Order {
+  order_id: number;
+  customer: string;
+  orderProducts: OrderDetails[];
+  order_date: Date;
+}
+
+export interface OrderDetails {
+  id: number;
+  order_id: number;
+  product_name: number | string;
+  quantity: number;
+  product_cost: number;
+  product_price: number;
+  discount: number;
+}
+
+const CURRENCY = "₱";
+
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
+export const OrderDetailsTable = ({ items }: Props) => {
+  const [totalItems, setTotalItems] = React.useState<number>(0);
+  const [totalAmount, setTotalAmount] = React.useState<number>(0);
+  const [totalProfit, setTotalProfit] = React.useState<number>(0);
+
+  return (
+    <>
+      {localStorage.setItem("totalItems", "0")}
+      {localStorage.setItem("totalAmount", "0")}
+      {localStorage.setItem("totalProfit", "0")}
+      <ThemeProvider theme={darkTheme}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Product</TableCell>
+                <TableCell align="right">Quantity</TableCell>
+                <TableCell align="right">Cost</TableCell>
+                <TableCell align="right">Price</TableCell>
+                <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">Profit</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(
+                (
+                  {
+                    id,
+                    order_id,
+                    product_name,
+                    quantity,
+                    product_cost,
+                    product_price,
+                    discount,
+                  }: OrderDetails,
+                  i: number
+                ) => {
+                  const amount = quantity * product_price;
+                  const profit = amount - quantity * product_cost - discount;
+
+                  const totalAmount =
+                    localStorage.getItem("totalAmount")! +
+                    `+${amount - discount}`;
+
+                  const totalProfit =
+                    localStorage.getItem("totalProfit")! + `+${profit}`;
+
+                  localStorage.setItem(
+                    "totalItems",
+                    localStorage.getItem("totalItems")! + `+${quantity}`
+                  );
+
+                  localStorage.setItem("totalAmount", totalAmount);
+                  localStorage.setItem("totalProfit", totalProfit);
+                  return (
+                    <TableRow
+                      key={id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="left">{product_name}</TableCell>
+                      <TableCell align="right">{quantity}</TableCell>
+                      <TableCell align="right">
+                        {CURRENCY} {product_cost}
+                      </TableCell>
+                      <TableCell align="right">
+                        {CURRENCY} {product_price}
+                      </TableCell>
+                      <TableCell align="right">
+                        {CURRENCY} {amount}
+                        {discount !== 0 ? (
+                          <>
+                            &nbsp;
+                            <i
+                              style={{
+                                color: "black",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                backgroundColor: "lightgreen",
+                              }}
+                            >
+                              ({CURRENCY} {discount} discount)
+                            </i>
+                          </>
+                        ) : (
+                          false
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
+                        {CURRENCY} {profit}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              )}
+              <TableRow
+                key={JSON.stringify(items)}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell colSpan={1}></TableCell>
+                <TableCell align="right">
+                  Total items: {eval(localStorage.getItem("totalItems")!)}
+                </TableCell>
+                <TableCell colSpan={2}></TableCell>
+                <TableCell align="right">
+                  Total amount:{` ${CURRENCY} `}
+                  {eval(localStorage.getItem("totalAmount")!)}
+                </TableCell>
+                <TableCell align="right">
+                  Total profit:{` ${CURRENCY} `}
+                  {eval(localStorage.getItem("totalProfit")!)}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </ThemeProvider>
+      {localStorage.removeItem("totalItems")}
+      {localStorage.removeItem("totalAmount")}
+      {localStorage.removeItem("totalProfit")}
+    </>
+  );
+};
+export default OrderDetailsTable;

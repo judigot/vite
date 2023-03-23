@@ -1,6 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { OrderItems } from "@src/app-salesmaster/components/OrdersTable";
-import ClickToSearch from "@src/app-salesmaster/components/ClickToSearch";
+import { OrderDetailsTable } from "@src/app-salesmaster/components/OrdersTable/OrderDetails";
+import ClickToSearch from "@src/app-salesmaster/components/OrdersTable/ClickToSearch/ClickToSearch";
 
 const columnHelper = createColumnHelper<Datatype>();
 
@@ -9,7 +9,7 @@ export const dynamicRender = true;
 export interface Datatype {
   order_id: number;
   customer: string;
-  order_product: OrderItems[];
+  order_product: OrderDetails[];
   order_date: Date;
 }
 
@@ -60,7 +60,7 @@ export const columns = [
     },
     cell: (info) => {
       const cellValue = info.getValue();
-      return <OrderItems items={cellValue} />;
+      return <OrderDetailsTable items={cellValue} />;
     },
     // footer: (info) => info.column.id,
   }),
