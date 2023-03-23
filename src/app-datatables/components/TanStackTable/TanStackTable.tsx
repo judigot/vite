@@ -49,7 +49,7 @@ const Box2 = styled.div``;
 
 const SearchBarContainer = styled.div`
   /* width: 100%; */
-  /* background-color: red; */
+  background-color: black;
   padding: 20px;
   text-align: center;
 `;
@@ -72,6 +72,15 @@ declare module "@tanstack/table-core" {
 }
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import {
+  decrement,
+  increment,
+  incrementByAmount,
+} from "@src/app-salesmaster/features/counterSlice";
+
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@src/app-salesmaster/store";
 
 const darkTheme = createTheme({
   palette: {
@@ -191,6 +200,9 @@ export default function App() {
   const [data, setData] = React.useState<Datatype[]>([]);
   const [globalFilter, setGlobalFilter] = React.useState("");
 
+  const dispatch = useDispatch();
+  const count = useSelector((state: RootState) => state.counter.value);
+
   React.useEffect(() => {
     (async () => {
       const data = await Data();
@@ -223,6 +235,13 @@ export default function App() {
 
   return (
     <div>
+      <button
+        aria-label="Increment value"
+        onClick={() => dispatch(increment())}
+      >
+        Increment
+      </button>
+      <h2>{count}</h2>
       <ThemeProvider theme={darkTheme}>
         <SearchBarContainer>
           <DebouncedInput

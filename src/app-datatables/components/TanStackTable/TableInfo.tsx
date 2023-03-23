@@ -4,6 +4,8 @@ import ClickToSearch from "@src/app-salesmaster/components/ClickToSearch";
 
 const columnHelper = createColumnHelper<Datatype>();
 
+export const dynamicRender = true;
+
 export interface Datatype {
   order_id: number;
   customer: string;
@@ -29,8 +31,8 @@ export const columns = [
       return <i>{info.column.id}</i>;
     },
     cell: (info) => {
-      const cellData = info.getValue();
-      return cellData;
+      const cellValue = info.getValue();
+      return cellValue;
     },
     // footer: (info) => info.column.id,
   }),
@@ -40,12 +42,12 @@ export const columns = [
       return <i>{info.column.id}</i>;
     },
     cell: (info) => {
-      const cellData = info.getValue();
+      const cellValue = info.getValue();
       return (
         <ClickToSearch
           forCustomer={true}
           behavior={handleClick}
-          item={cellData}
+          item={cellValue}
         />
       );
     },
@@ -57,8 +59,8 @@ export const columns = [
       return <span>{info.column.id}</span>;
     },
     cell: (info) => {
-      const cellData = info.getValue();
-      return <OrderItems items={cellData} />;
+      const cellValue = info.getValue();
+      return <OrderItems items={cellValue} />;
     },
     // footer: (info) => info.column.id,
   }),
@@ -68,9 +70,9 @@ export const columns = [
       return <span>{info.column.id}</span>;
     },
     cell: (info) => {
-      const cellData = info.getValue();
+      const cellValue = info.getValue();
 
-      const date = new Date(cellData);
+      const date = new Date(cellValue);
 
       let dayOfTheWeek = date.getDay();
       const year = date.getFullYear();
@@ -79,7 +81,7 @@ export const columns = [
         month: "long",
       });
 
-      const time = new Date(cellData).toLocaleString("en-US", {
+      const time = new Date(cellValue).toLocaleString("en-US", {
         // year: "numeric",
         // month: "numeric",
         // day: "numeric",
@@ -109,46 +111,37 @@ export const columns = [
 ];
 
 // Dynamic column helper
-// const columns: any = [];
+// export const columns: any = [];
 // for (
 //   let i = 0, arrayLength = Object.keys(customColumnNames).length;
 //   i < arrayLength;
 //   i++
 // ) {
-//   const key: string = Object.keys(customColumnNames)[i];
-//   const customColumnName: string = customColumnNames[key];
-
-//   console.log(key);
-
+//   const key: string[] = Object.keys(customColumnNames);
+//   const customColumnName: string = customColumnNames[key[i]];
 //   columns.push(
-//     columnHelper.accessor((row: any) => row[key], {
-//       id: customColumnName,
-//       header: (info) => {
-//         return info.column.id;
+//     columnHelper.accessor(
+//       (row: any) => {
+//         return row[key[i]];
 //       },
-//       cell: (info) => {
-//         const cellData = info.getValue();
-//         // // Date/Datetime
-//         // if (cellData instanceof Date) {
-//         //   return cellData.toString();
-//         // }
-
-//         // // Object
-//         // if (
-//         //   cellData instanceof Object &&
-//         //   !Array.isArray(cellData) &&
-//         //   cellData.constructor.name === "Object"
-//         // ) {
-//         // }
-
-//         // // Integer
-//         // if (Number(cellData) === cellData && cellData % 1 === 0) {
-//         //   return cellData;
-//         // }
-//         return JSON.stringify(cellData);
-//       },
-//       // footer: (info) => info.column.id,
-//     })
+//       {
+//         id: customColumnName,
+//         header: (info) => {
+//           return info.column.id;
+//         },
+//         cell: (info) => {
+//           const cellValue: any = info.getValue();
+//           if (cellValue.constructor.name === "Date") {
+//             return cellValue.toString();
+//           }
+//           if (["Array", "Object"].includes(cellValue.constructor.name)) {
+//             return JSON.stringify(cellValue);
+//           }
+//           return cellValue;
+//         },
+//         // footer: (info) => info.column.id,
+//       }
+//     )
 //   );
 // }
 
