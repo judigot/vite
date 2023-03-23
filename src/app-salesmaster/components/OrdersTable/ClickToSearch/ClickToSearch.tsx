@@ -29,21 +29,11 @@ export interface Props {
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 export const Clickable = ({ item, forCustomer, forDate }: Props) => {
-  const myPromise = (item: string) => {
-    return new Promise((resolve, reject) => {
-      resolve(dispatch(setQuery(item)));
-    });
-  };
   const dispatch = useDispatch();
   return (
     <ClickableStyled
       onClick={async () => {
         dispatch(setQuery(item));
-
-        // (
-        //   document.querySelector("#searchInput") as unknown as HTMLInputElement
-        // ).select();
-
         setTimeout(() => {
           (
             document.querySelector(
@@ -55,6 +45,7 @@ export const Clickable = ({ item, forCustomer, forDate }: Props) => {
     >
       {forCustomer && <PersonIcon />}
       {forDate && <CalendarMonthIcon />}
+
       <div>{item}</div>
     </ClickableStyled>
   );
