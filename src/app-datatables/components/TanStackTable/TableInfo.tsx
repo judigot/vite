@@ -14,7 +14,7 @@ export interface Datatype {
 export const customColumnNames: { [key: string]: string } = {
   order_id: "Order ID",
   customer: "Customer ID",
-  orderProducts: "Order Products",
+  order_product: "Order Products",
   order_date: "Date",
 };
 
