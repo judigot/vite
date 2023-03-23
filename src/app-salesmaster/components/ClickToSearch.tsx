@@ -3,11 +3,18 @@ import React from "react";
 import styled from "styled-components";
 
 const ClickableStyled = styled.div`
-  font-size: 20px;
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
   cursor: pointer;
-  background-color: skyblue;
+  font-weight: bold;
+  background-color: darkblue;
   padding: 10px;
   border-radius: 10px;
+
+  &:hover {
+    box-shadow: 0px 0px 10px 1px #555;
+  }
 `;
 
 export interface Props {
