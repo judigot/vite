@@ -103,13 +103,6 @@ export const columns = [
             item={`${month} ${day}, ${year} at ${time}`}
           />
         );
-
-        // return (
-        //   <>
-        //     <div style={{ display: "none" }}>hidden</div>
-        //     {`${month} ${day}, ${year} at ${time}`}
-        //   </>
-        // );
       } else {
         const cellValue = info;
         return JSON.stringify(cellValue);
@@ -139,14 +132,19 @@ export const columns = [
 //           return info.column.id;
 //         },
 //         cell: (info) => {
-//           const cellValue: any = info.getValue();
-//           if (cellValue.constructor.name === "Date") {
-//             return cellValue.toString();
-//           }
-//           if (["Array", "Object"].includes(cellValue.constructor.name)) {
+//           if (info.getValue) {
+//             const cellValue: any = info.getValue();
+//             if (cellValue.constructor.name === "Date") {
+//               return cellValue.toString();
+//             }
+//             if (["Array", "Object"].includes(cellValue.constructor.name)) {
+//               return JSON.stringify(cellValue);
+//             }
+//             return cellValue;
+//           } else {
+//             const cellValue = info;
 //             return JSON.stringify(cellValue);
 //           }
-//           return cellValue;
 //         },
 //         // footer: (info) => info.column.id,
 //       }
