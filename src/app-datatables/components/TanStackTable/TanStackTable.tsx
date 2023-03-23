@@ -4,6 +4,16 @@ import Data, { Datatype, columns } from "./TableInfo";
 
 import { OrderItems } from "@src/app-salesmaster/components/OrdersTable";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+import { Button } from "@mui/material";
+
 import {
   useReactTable,
   getCoreRowModel,
@@ -21,11 +31,35 @@ import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import TextField from "@mui/material/TextField/TextField";
 
 import styled from "styled-components";
-const SearchbarContainer = styled.div`
-  /* text-align: center; */
+
+const GridWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: repeat(2, 1fr); */
+  background-color: black;
+  width: 100%;
+`;
+
+const Box1 = styled.div`
+  color: white;
+  padding: 20px;
+  margin: auto 0% auto 0%;
+`;
+const Box2 = styled.div``;
+
+const SearchBarContainer = styled.div`
+  /* width: 100%; */
+  /* background-color: red; */
+  padding: 20px;
+  text-align: center;
+`;
+
+const PageActionsContainer = styled.div`
+  background-color: black;
+  padding: 20px;
+  text-align: right;
   position: relative;
-  /* left: 1000px; */
-  max-width: 100%;
+  float: right;
 `;
 
 declare module "@tanstack/table-core" {
@@ -36,6 +70,14 @@ declare module "@tanstack/table-core" {
     itemRank: RankingInfo;
   }
 }
+
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   const masterValues: string[] = [];
@@ -125,7 +167,14 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
     }
   }
 
-  if (rowContent.join("").toUpperCase().includes(searchInput.toUpperCase())) {
+  // Convert array to string and remove commas
+  let rowInStringForm = rowContent.join("");
+
+  // Sanitize: remove all spaces for better matching, convert to uppercase
+  searchInput = searchInput.replace(/\s+/g, "").toUpperCase();
+  rowInStringForm = rowInStringForm.replace(/\s+/g, "").toUpperCase();
+
+  if (rowInStringForm.includes(searchInput)) {
     console.log(rowContent.join(""));
     return true;
   }
@@ -173,133 +222,153 @@ export default function App() {
   });
 
   return (
-    <div className="p-2">
-      <div>
-        <DebouncedInput
-          value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search"
-        />
-      </div>
-      <div className="h-2" />
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+    <div>
+      <ThemeProvider theme={darkTheme}>
+        <SearchBarContainer>
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            placeholder="Search"
+          />
+        </SearchBarContainer>
+        <TableContainer style={{ maxHeight: 500 }} component={Paper}>
+          <Table stickyHeader>
+            <TableHead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableCell key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder ? null : (
+                          <>
+                            <div
+                              {...{
+                                className: header.column.getCanSort()
+                                  ? "cursor-pointer select-none"
+                                  : "",
+                                onClick:
+                                  header.column.getToggleSortingHandler(),
+                              }}
+                            >
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                              {{
+                                asc: " 🔼",
+                                desc: " 🔽",
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </div>
+                            {header.column.getCanFilter() ? <div></div> : null}
+                          </>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHead>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => {
                 return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <>
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? "cursor-pointer select-none"
-                              : "",
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id}>
                           {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
+                            cell.column.columnDef.cell,
+                            cell.getContext()
                           )}
-                          {{
-                            asc: " 🔼",
-                            desc: " 🔽",
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                        {header.column.getCanFilter() ? <div></div> : null}
-                      </>
-                    )}
-                  </th>
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
                 );
               })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {">>"}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[5, 10, 20].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <GridWrapper>
+          <Box1>
+            <span>{table.getPrePaginationRowModel().rows.length} Orders</span>
+            <span> | </span>
+            <span className="flex items-center gap-1">
+              <span>Page </span>
+              <strong>
+                {`${
+                  table.getState().pagination.pageIndex + 1
+                } of ${table.getPageCount()}`}
+              </strong>
+            </span>
+            <span> | </span>
+            <span className="flex items-center gap-1">
+              Go to page: &nbsp;
+              <select
+                value={table.getState().pagination.pageIndex + 1}
+                onChange={(e) => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  table.setPageIndex(page);
+                }}
+              >
+                {[...Array(table.getPageCount())].map((value, i, array) => (
+                  <option key={i} value={i + 1}>
+                    Page {i + 1}
+                  </option>
+                ))}
+              </select>
+            </span>
+            <select
+              value={table.getState().pagination.pageSize}
+              onChange={(e) => {
+                table.setPageSize(Number(e.target.value));
+              }}
+            >
+              {[5, 10, 20].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </Box1>
+          <Box2>
+            <PageActionsContainer>
+              <Button
+                variant="contained"
+                className="border rounded p-1"
+                onClick={() => table.setPageIndex(0)}
+                disabled={!table.getCanPreviousPage()}
+              >
+                First
+              </Button>
+              <Button
+                variant="contained"
+                className="border rounded p-1"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="contained"
+                className="border rounded p-1"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                Next
+              </Button>
+              <Button
+                variant="contained"
+                className="border rounded p-1"
+                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                disabled={!table.getCanNextPage()}
+              >
+                Last
+              </Button>
+            </PageActionsContainer>
+          </Box2>
+        </GridWrapper>
+      </ThemeProvider>
+
       {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
     </div>
   );
@@ -331,19 +400,21 @@ function DebouncedInput({
   }, [value]);
 
   return (
-    <SearchbarContainer>
-      <TextField
-        inputProps={{
-          style: { backgroundColor: "lightblue" },
-          debounce: 1000,
-          value,
-          onChange: (e: React.FormEvent<HTMLInputElement>) =>
-            setValue(e.currentTarget.value),
-        }}
-        id="filled-basic"
-        label="Search orders"
-        variant="filled"
-      />
-    </SearchbarContainer>
+    <TextField
+      inputProps={{
+        style: {
+          width: "100%",
+          backgroundColor: "darkblue",
+          textAlign: "center",
+        },
+        debounce: 1000,
+        value,
+        onChange: (e: React.FormEvent<HTMLInputElement>) =>
+          setValue(e.currentTarget.value),
+      }}
+      id="filled-basic"
+      label="Search"
+      variant="outlined"
+    />
   );
 }
