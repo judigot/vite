@@ -1,8 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
-// import { OrderDetailsTable } from "@src/app-salesmaster/components/OrdersTable/OrderDetails";
-import ClickToSearch from "@src/app-salesmaster/components/OrdersTable/ClickToSearch/ClickToSearch";
+import ClickToSearch from "./ClickToSearch/ClickToSearch";
 
-import OrderDetailsTable, { OrderDetails } from "./OrderDetails";
+import OrderDetailsTable, { OrderDetails } from "./OrderDetails/OrderDetails";
 
 const columnHelper = createColumnHelper<Datatype>();
 

@@ -1,1 +1,1 @@
-export { default } from "./OrderDetails";
+export { default, type OrderDetails } from "./OrderDetails";
