@@ -34,13 +34,6 @@ export const Clickable = ({ item, forCustomer, forDate }: Props) => {
     <ClickableStyled
       onClick={async () => {
         dispatch(setQuery(item));
-        setTimeout(() => {
-          (
-            document.querySelector(
-              "#searchInput"
-            ) as unknown as HTMLInputElement
-          ).select();
-        }, 5);
       }}
     >
       {forCustomer && <PersonIcon />}
