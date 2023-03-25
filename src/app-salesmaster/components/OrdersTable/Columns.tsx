@@ -1,6 +1,7 @@
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 import { Datatype } from "./Data";
+import { OrderDetails } from "./OrderDetails";
 
 const columnHelper = createColumnHelper<Datatype>();
 
@@ -12,7 +13,8 @@ const columnNames: { [key: string]: string } = {
   order_date: "Date",
 };
 
-const columns: object[] = [];
+const columns: ColumnDef<Datatype, number | string | OrderDetails[] | Date>[] =
+  [];
 for (
   let i = 0, arrayLength = Object.keys(columnNames).length;
   i < arrayLength;
