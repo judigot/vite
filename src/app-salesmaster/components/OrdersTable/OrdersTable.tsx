@@ -1,6 +1,6 @@
 import React from "react";
 
-import Data, { Datatype, columns } from "./TableInfo";
+import Data, { Datatype, columns, filterHelper } from "./TableInfo";
 
 import { OrderDetails } from "@src/app-salesmaster/components/OrdersTable/OrderDetails";
 
@@ -113,58 +113,9 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
     const cellRendererFunction = rawCellValue.column.columnDef.cell as Function;
     const JSXCellValue = cellRendererFunction(rawCellValue);
 
-    // Order ID
-    if (columnName === "Order ID") {
-      rowContent.push(`orderID='${JSXCellValue}'`);
-    }
+    const cellValue = row.getVisibleCells()[i].getValue();
 
-    // Customer
-    if (columnName === "Customer") {
-      rowContent.push(`customerName='${JSXCellValue.props.item}'`);
-    }
-
-    // Order Products
-    if (columnName === "Order Products") {
-      const orderDetails: string[] = [];
-      const value = JSXCellValue.props.items;
-      let totalItems: number = 0;
-      let totalAmount: number = 0;
-      let totalProfit: number = 0;
-
-      (value as OrderDetails[]).map(
-        ({
-          id,
-          order_id,
-          product_name,
-          quantity,
-          product_cost,
-          product_price,
-          discount,
-        }: OrderDetails) => {
-          orderDetails.push(`productName='${product_name}'`);
-          const amount = quantity * product_price;
-          const profit = amount - quantity * product_cost - discount;
-
-          totalItems += quantity;
-          totalAmount += amount - discount;
-          totalProfit += profit;
-        }
-      );
-
-      orderDetails.push(`totalItems='${totalItems}'`);
-      orderDetails.push(`totalAmount='${totalAmount}'`);
-      orderDetails.push(`totalProfit='${totalProfit}'`);
-      orderDetails.push(`totalAmount='Total items: ${totalItems}'`);
-      orderDetails.push(`totalAmount='Total amount: ₱ ${totalAmount}'`);
-      orderDetails.push(`totalProfit='Total profit: ₱ ${totalProfit}'`);
-
-      rowContent.push(orderDetails.join(""));
-    }
-
-    // Date
-    if (columnName === "Date") {
-      rowContent.push(`orderDate='${JSXCellValue.props.item}'`);
-    }
+    rowContent.push(filterHelper.cellToString(columnName, cellValue));
   }
 
   // Convert array to string and remove commas
@@ -175,7 +126,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   rowInStringForm = rowInStringForm.replace(/\s+/g, "").toUpperCase();
 
   if (rowInStringForm.includes(searchInput)) {
-    console.log(rowInStringForm);
+    // console.log(rowInStringForm);
     return true;
   }
 
@@ -384,7 +335,7 @@ export default function App() {
 function DebouncedInput({
   value: initialValue,
   onChange,
-  debounce = 500,
+  debounce = 0, // Search delay
   ...props
 }: {
   value: string | number;

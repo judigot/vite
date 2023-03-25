@@ -21,6 +21,100 @@ export const customColumnNames: { [key: string]: string } = {
   order_date: "Date",
 };
 
+export const filterHelper: { [key: string]: Function } = {
+  cellToString: (
+    columnName: string,
+    cellValue: Date | string | Array<string | number | object> | object
+  ) => {
+    let rowInStringForm: string = "";
+    // Order ID
+    if (columnName === "Order ID") {
+      return `orderID='${cellValue}'`;
+    }
+
+    // Customer
+    if (columnName === "Customer") {
+      return `customerName='${cellValue}'`;
+    }
+
+    // Order Products
+    if (columnName === "Order Products") {
+      const orderDetails: string[] = [];
+      const value = cellValue;
+      let totalItems: number = 0;
+      let totalAmount: number = 0;
+      let totalProfit: number = 0;
+
+      (value as OrderDetails[]).map(
+        ({
+          id,
+          order_id,
+          product_name,
+          quantity,
+          product_cost,
+          product_price,
+          discount,
+        }: OrderDetails) => {
+          orderDetails.push(`productName='${product_name}'`);
+          const amount = quantity * product_price;
+          const profit = amount - quantity * product_cost - discount;
+
+          totalItems += quantity;
+          totalAmount += amount - discount;
+          totalProfit += profit;
+        }
+      );
+
+      orderDetails.push(`totalItems='${totalItems}'`);
+      orderDetails.push(`totalAmount='${totalAmount}'`);
+      orderDetails.push(`totalProfit='${totalProfit}'`);
+      orderDetails.push(`totalAmount='Total items: ${totalItems}'`);
+      orderDetails.push(`totalAmount='Total amount: ₱ ${totalAmount}'`);
+      orderDetails.push(`totalProfit='Total profit: ₱ ${totalProfit}'`);
+
+      return orderDetails.join("");
+    }
+
+    // Date
+    if (columnName === "Date") {
+      return `orderDate='${cellValue}' orderDate='${formatDate(
+        new Date(cellValue as Date)
+      )}'`;
+    }
+
+    // return cellValue;
+  },
+  filter: (
+    columnName: string,
+    cellValue: Date | string | Array<string | number | object> | object
+  ) => {
+    if (cellValue.constructor.name === "Date") {
+      return cellValue.toString();
+    }
+    if (["Array", "Object"].includes(cellValue.constructor.name)) {
+      return JSON.stringify(cellValue);
+    }
+    return cellValue;
+  },
+};
+
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  let day = date.getDate();
+  const month = date.toLocaleString("default", {
+    month: "long",
+  });
+
+  const time = date.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  });
+
+  return `${month} ${day}, ${year} at ${time}`;
+}
+
 export const columns = [
   columnHelper.accessor((row) => row.order_id, {
     id: "Order ID",
@@ -81,29 +175,7 @@ export const columns = [
 
         const date = new Date(cellValue);
 
-        let dayOfTheWeek = date.getDay();
-        const year = date.getFullYear();
-        let day = date.getDate();
-        const month = date.toLocaleString("default", {
-          month: "long",
-        });
-
-        const time = new Date(cellValue).toLocaleString("en-US", {
-          // year: "numeric",
-          // month: "numeric",
-          // day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          hour12: true,
-        });
-
-        return (
-          <ClickToSearch
-            forDate={true}
-            item={`${month} ${day}, ${year} at ${time}`}
-          />
-        );
+        return <ClickToSearch forDate={true} item={formatDate(date)} />;
       } else {
         const cellValue = info;
         return JSON.stringify(cellValue);
