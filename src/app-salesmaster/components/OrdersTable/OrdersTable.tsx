@@ -105,7 +105,12 @@ declare module "@tanstack/table-core" {
   }
 }
 
-const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
+const fuzzyFilter: FilterFn<Datatype> = (
+  row,
+  columnId,
+  searchInput,
+  addMeta
+) => {
   console.log(columnId);
   const rowContent = [];
   for (

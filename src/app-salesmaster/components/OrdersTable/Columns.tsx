@@ -1,44 +1,38 @@
 import { createColumnHelper } from "@tanstack/react-table";
 
-import { OrderDetails } from "./OrderDetails/OrderDetails";
-
-export interface Datatype {
-  order_id: number;
-  customer: string;
-  order_product: OrderDetails[];
-  order_date: Date;
-}
+import { Datatype } from "./Data";
 
 const columnHelper = createColumnHelper<Datatype>();
 
-export const customColumnNames: { [key: string]: string } = {
+// Visible columns
+const columnNames: { [key: string]: string } = {
   order_id: "Order ID",
   customer: "Customer ID",
   order_product: "Order Products",
   order_date: "Date",
 };
 
-const columns: any = [];
+const columns: object[] = [];
 for (
-  let i = 0, arrayLength = Object.keys(customColumnNames).length;
+  let i = 0, arrayLength = Object.keys(columnNames).length;
   i < arrayLength;
   i++
 ) {
-  const key: string[] = Object.keys(customColumnNames);
-  const customColumnName: string = customColumnNames[key[i]];
+  const key: string[] = Object.keys(columnNames);
+  const columnName: string = columnNames[key[i]];
   columns.push(
     columnHelper.accessor(
-      (row: any) => {
+      (row: Datatype) => {
         return row[key[i]];
       },
       {
-        id: customColumnName,
+        id: columnName,
         header: (info) => {
           return info.column.id;
         },
         cell: (info) => {
           if (info.getValue) {
-            const cellValue: any = info.getValue();
+            const cellValue = info.getValue();
             if (cellValue.constructor.name === "Date") {
               return cellValue.toString();
             }

@@ -1,19 +1,15 @@
 import { createColumnHelper } from "@tanstack/react-table";
+
+import OrderDetailsTable from "./OrderDetails/OrderDetails";
 import ClickToSearch from "./ClickToSearch";
+import { Datatype } from "./Data";
+
 import { formatDate } from "./helpers";
-
-import OrderDetailsTable, { OrderDetails } from "./OrderDetails/OrderDetails";
-
-export interface Datatype {
-  order_id: number;
-  customer: string;
-  order_product: OrderDetails[];
-  order_date: Date;
-}
 
 const columnHelper = createColumnHelper<Datatype>();
 
-const columns = [
+// Visible columns
+export default [
   columnHelper.accessor((row) => row.order_id, {
     id: "Order ID",
     header: (info) => {
@@ -82,5 +78,3 @@ const columns = [
     // footer: (info) => info.column.id,
   }),
 ];
-
-export default columns;

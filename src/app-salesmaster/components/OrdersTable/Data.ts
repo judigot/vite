@@ -5,6 +5,14 @@ export interface Datatype {
   customer: string;
   order_product: OrderDetails[];
   order_date: Date;
+  [key: string]: number | string | OrderDetails[] | Date;
+}
+
+export interface Person {
+  first_name: string;
+  last_name: string;
+  birthday: Date;
+  [key: string]: string | number | Date;
 }
 
 export default async function getData() {
