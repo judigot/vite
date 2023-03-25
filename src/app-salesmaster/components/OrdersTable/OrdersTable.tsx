@@ -1,8 +1,12 @@
 import React from "react";
 
-import Data, { Datatype, columns, filterHelper } from "./TableInfo";
+import Data, { Datatype } from "./Data";
 
-import { OrderDetails } from "@src/app-salesmaster/components/OrdersTable/OrderDetails";
+import Columns from "./CustomColumns";
+import Filter from "./CustomFilter";
+
+// import Columns from "./Columns";
+// import Filter from "./DefaultFilter";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -25,6 +29,7 @@ import {
   getSortedRowModel,
   FilterFn,
   flexRender,
+  Cell,
 } from "@tanstack/react-table";
 
 import { RankingInfo } from "@tanstack/match-sorter-utils";
@@ -101,6 +106,7 @@ declare module "@tanstack/table-core" {
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
+  console.log(columnId);
   const rowContent = [];
   for (
     let i = 0, arrayLength = row.getVisibleCells().length;
@@ -109,13 +115,18 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   ) {
     const columnName = row.getVisibleCells()[i].column.id;
 
-    const rawCellValue = row.getVisibleCells()[i];
-    const cellRendererFunction = rawCellValue.column.columnDef.cell as Function;
-    const JSXCellValue = cellRendererFunction(rawCellValue);
+    const cell = row.getVisibleCells()[i] as {
+      column: { columnDef: { cell: Function } };
+    };
 
-    const cellValue = row.getVisibleCells()[i].getValue();
+    const cellValue = row.getVisibleCells()[i].getValue() as
+      | string
+      | object
+      | Date
+      | (string | number | object)[];
 
-    rowContent.push(filterHelper.cellToString(columnName, cellValue));
+    rowContent.push(Filter(cellValue, columnName, cell));
+    // rowContent.push(CustomFilter(cellValue, columnName, cell));
   }
 
   // Convert array to string and remove commas
@@ -126,7 +137,6 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   rowInStringForm = rowInStringForm.replace(/\s+/g, "").toUpperCase();
 
   if (rowInStringForm.includes(searchInput)) {
-    // console.log(rowInStringForm);
     return true;
   }
 
@@ -150,7 +160,7 @@ export default function App() {
 
   const table = useReactTable({
     data,
-    columns,
+    columns: Columns,
     filterFns: {
       fuzzy: fuzzyFilter,
     },
