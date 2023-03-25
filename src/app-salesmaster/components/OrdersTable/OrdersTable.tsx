@@ -101,90 +101,69 @@ declare module "@tanstack/table-core" {
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
-  const masterValues: string[] = [];
   const rowContent = [];
   for (
     let i = 0, arrayLength = row.getVisibleCells().length;
     i < arrayLength;
     i++
   ) {
-    //=======GET COLUMNS=======//
-    let targetColumn = undefined;
-    // prettier-ignore
-    for ( let i = 0, arrayLength = row.getVisibleCells().length; i < arrayLength; i++ ) { const columnName = row.getVisibleCells()[i].column.id; if (columnName === columnId) { targetColumn = i; break; } }
-    const columnName = row.getVisibleCells()[targetColumn!].column.id;
-    //=======GET COLUMNS=======//
+    const columnName = row.getVisibleCells()[i].column.id;
 
     const rawCellValue = row.getVisibleCells()[i];
     const cellRendererFunction = rawCellValue.column.columnDef.cell as Function;
-    const renderedCellValue = cellRendererFunction(rawCellValue);
+    const JSXCellValue = cellRendererFunction(rawCellValue);
 
     // Order ID
     if (columnName === "Order ID") {
-      if (typeof renderedCellValue === "number") {
-        rowContent.push(`orderID='${renderedCellValue}'`);
-      }
+      rowContent.push(`orderID='${JSXCellValue}'`);
     }
 
     // Customer
     if (columnName === "Customer") {
-      if (typeof renderedCellValue === "object") {
-        if (renderedCellValue.props.forCustomer === true) {
-          rowContent.push(`customerName='${renderedCellValue.props.item}'`);
-        }
-      }
+      rowContent.push(`customerName='${JSXCellValue.props.item}'`);
     }
 
     // Order Products
-    if (typeof renderedCellValue === "object") {
-      const value = renderedCellValue.props.items;
-      if (typeof value === "object") {
-        let totalItems: number = 0;
-        let totalAmount: number = 0;
-        let totalProfit: number = 0;
+    if (columnName === "Order Products") {
+      const orderDetails: string[] = [];
+      const value = JSXCellValue.props.items;
+      let totalItems: number = 0;
+      let totalAmount: number = 0;
+      let totalProfit: number = 0;
 
-        (value as OrderDetails[]).map(
-          (
-            {
-              id,
-              order_id,
-              product_name,
-              quantity,
-              product_cost,
-              product_price,
-              discount,
-            }: OrderDetails,
-            i,
-            array
-          ) => {
-            masterValues.push(`productName='${product_name}'`);
-            const amount = quantity * product_price;
-            const profit = amount - quantity * product_cost - discount;
+      (value as OrderDetails[]).map(
+        ({
+          id,
+          order_id,
+          product_name,
+          quantity,
+          product_cost,
+          product_price,
+          discount,
+        }: OrderDetails) => {
+          orderDetails.push(`productName='${product_name}'`);
+          const amount = quantity * product_price;
+          const profit = amount - quantity * product_cost - discount;
 
-            totalItems += quantity;
-            totalAmount += amount - discount;
-            totalProfit += profit;
-          }
-        );
+          totalItems += quantity;
+          totalAmount += amount - discount;
+          totalProfit += profit;
+        }
+      );
 
-        masterValues.push(`totalItems='${totalItems}'`);
-        masterValues.push(`totalAmount='${totalAmount}'`);
-        masterValues.push(`totalProfit='${totalProfit}'`);
-        masterValues.push(`totalAmount='Total items: ${totalItems}'`);
-        masterValues.push(`totalAmount='Total amount: ₱ ${totalAmount}'`);
-        masterValues.push(`totalProfit='Total profit: ₱ ${totalProfit}'`);
+      orderDetails.push(`totalItems='${totalItems}'`);
+      orderDetails.push(`totalAmount='${totalAmount}'`);
+      orderDetails.push(`totalProfit='${totalProfit}'`);
+      orderDetails.push(`totalAmount='Total items: ${totalItems}'`);
+      orderDetails.push(`totalAmount='Total amount: ₱ ${totalAmount}'`);
+      orderDetails.push(`totalProfit='Total profit: ₱ ${totalProfit}'`);
 
-        rowContent.push(masterValues.join(""));
-      }
+      rowContent.push(orderDetails.join(""));
     }
 
     // Date
-    if (columnName === "Customer") {
-      if (typeof renderedCellValue === "object") {
-        if (renderedCellValue.props.forDate === true) {
-          rowContent.push(`orderDate='${renderedCellValue.props.item}'`);
-        }
-      }
+    if (columnName === "Date") {
+      rowContent.push(`orderDate='${JSXCellValue.props.item}'`);
     }
   }
 
@@ -196,7 +175,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, searchInput, addMeta) => {
   rowInStringForm = rowInStringForm.replace(/\s+/g, "").toUpperCase();
 
   if (rowInStringForm.includes(searchInput)) {
-    // console.log(rowInStringForm);
+    console.log(rowInStringForm);
     return true;
   }
 
