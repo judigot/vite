@@ -98,7 +98,7 @@ export const filterHelper: { [key: string]: Function } = {
   },
 };
 
-function formatDate(date: Date) {
+const formatDate = (date: Date) => {
   const year = date.getFullYear();
   let day = date.getDate();
   const month = date.toLocaleString("default", {
@@ -113,7 +113,7 @@ function formatDate(date: Date) {
   });
 
   return `${month} ${day}, ${year} at ${time}`;
-}
+};
 
 export const columns = [
   columnHelper.accessor((row) => row.order_id, {
