@@ -3,14 +3,7 @@ export default (
   columnName: string,
   cell: {
     column: { columnDef: { cell: Function } };
-    // id: object;
-    // row: object;
-    // getValue: object;
-    // renderValue: object;
-    // getContext: object;
-    // getIsGrouped: object;
-    // getIsPlaceholder: object;
-    // getIsAggregated: object;
+    // id: object; row: object; getValue: object; renderValue: object; getContext: object; getIsGrouped: object; getIsPlaceholder: object; getIsAggregated: object;
   }
 ) => {
   if (cellValue.constructor.name === "Date") {
