@@ -6,8 +6,6 @@ import styled from "styled-components";
 
 import MovieComponent from "./Movie";
 
-import "./styles.css";
-
 const CenterDiv = styled.div`
   text-align: center;
 `;
