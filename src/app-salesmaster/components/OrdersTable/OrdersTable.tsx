@@ -111,7 +111,6 @@ const fuzzyFilter: FilterFn<Datatype> = (
   searchInput,
   addMeta
 ) => {
-  console.log(columnId);
   const rowContent = [];
   for (
     let i = 0, arrayLength = row.getVisibleCells().length;
