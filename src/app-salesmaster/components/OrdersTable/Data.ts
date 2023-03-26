@@ -8,13 +8,6 @@ export interface Datatype {
   [key: string]: number | string | OrderDetails[] | Date;
 }
 
-export interface Person {
-  first_name: string;
-  last_name: string;
-  birthday: Date;
-  [key: string]: string | number | Date;
-}
-
 export default async function getData() {
   return await fetch(`http://localhost:5000/api/orders`, {
     // *GET, POST, PUT, DELETE
