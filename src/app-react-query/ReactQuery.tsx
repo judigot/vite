@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useQuery } from "@tanstack/react-query";
+
 async function Data({ queryKey }: any) {
   const { searchQuery } = queryKey[1];
 
@@ -22,8 +24,6 @@ async function Data({ queryKey }: any) {
       // Failure
     });
 }
-
-import { useQuery } from "@tanstack/react-query";
 
 interface Props {}
 
@@ -144,12 +144,6 @@ export default function App(props: Props) {
   // if (remove) return setMessage(JSON.stringify(remove));
   // if (status) return setMessage(JSON.stringify(status));
   // if (fetchStatus) return setMessage(JSON.stringify(fetchStatus));
-
-  React.useEffect(() => {}, []);
-
-  React.useEffect(() => {
-    // Runs after every successful render or state change
-  });
 
   return (
     <>
