@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default class ChildComponent extends Component<Props> {
-  constructor(props: Props) {
+  constructor({}: Props) {
     super(props);
   }
   render() {

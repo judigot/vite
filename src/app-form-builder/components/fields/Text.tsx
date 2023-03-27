@@ -1,6 +1,6 @@
 interface Props extends TextField {}
 
-const Text = (props: Props) => {
+const Text = ({}: Props) => {
   return (
     <div>
       <span>{props.title}</span>

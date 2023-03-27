@@ -1,7 +1,7 @@
 import React from "react";
 interface Props extends DropdownField {}
 
-const Dropdown = (props: Props) => {
+const Dropdown = ({}: Props) => {
   const [selected, setSelected] = React.useState<number | undefined>(
     props.default
   );

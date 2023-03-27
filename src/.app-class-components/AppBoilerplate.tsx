@@ -36,7 +36,7 @@ export default class ExampleComponent extends React.Component<Props, State> {
   static propTypes: { type: PropTypes.Requireable<number> };
   static defaultProps: { counter: number };
   // use a constructor if necessary
-  constructor(props: Props) {
+  constructor({}: Props) {
     super(props);
 
     this.state = { count: 0, data: "Loading" };

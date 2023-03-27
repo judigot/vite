@@ -4,7 +4,7 @@ interface Props {
   index: number;
 }
 
-export default function App(props: Props) {
+export default ({}: Props) => {
   React.useEffect(() => {}, []);
 
   //====================HELPER FUNCTIONS====================//

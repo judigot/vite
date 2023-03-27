@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props extends BooleanField {}
 
-const Boolean = (props: Props) => {
+const Boolean = ({}: Props) => {
   const [checked, setChecked] = React.useState(props.isChecked);
 
   const handleClick = (_e: React.ChangeEvent) => {

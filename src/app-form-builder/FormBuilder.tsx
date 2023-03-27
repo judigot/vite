@@ -9,7 +9,7 @@ interface Props {
   form: MasterField[];
 }
 
-const FormBuilder: React.FC<Props> = (props: Props) => {
+const FormBuilder: React.FC<Props> = ({}: Props) => {
   const form: MasterField[] = props.form;
 
   return (

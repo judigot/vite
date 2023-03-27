@@ -6,9 +6,12 @@ import Memoization from "./Memoization";
 
 import Movies from "./Movies";
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
-export const ParentComponent = (props: Props) => {
+export const ParentComponent = ({}: Props) => {
   const initialCount = 0;
 
   const [count, setCount] = React.useState(initialCount);

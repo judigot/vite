@@ -2,9 +2,12 @@ import React from "react";
 
 import { ParentComponent } from "./components/ParentComponent";
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
-export default function App(props: Props) {
+export default ({}: Props) => {
   const [data, setData] = React.useState<string>();
 
   React.useEffect(() => {

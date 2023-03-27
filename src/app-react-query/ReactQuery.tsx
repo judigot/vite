@@ -12,9 +12,12 @@ async function getData({ queryKey }: any) {
   return Data();
 }
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
-export default function App(props: Props) {
+export default ({}: Props) => {
   const [message, setMessage] = React.useState<string>(``);
 
   const searchRef = React.useRef<HTMLInputElement>(null!);

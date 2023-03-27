@@ -15,7 +15,10 @@ const H1Styled = styled.h1`
 `;
 //==========STYLE==========//
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
 export function AnotherComponent() {
   const count = useSelector((state: RootState) => state.counter.value);

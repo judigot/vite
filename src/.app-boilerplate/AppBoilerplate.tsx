@@ -20,7 +20,7 @@ interface Props {
   [index: number]: string | number | Date; // For assigning dynamic indexes (number)
 }
 
-export default function App({}: Props) {
+export default ({}: Props) => {
   // const [count, setCount] = React.useState<number>(0);
 
   const [number, setNumber] = React.useState<number>(expensiveCalculation);

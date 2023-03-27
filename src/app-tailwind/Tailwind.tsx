@@ -4,14 +4,17 @@ import { TailwindModal } from "./components/modals";
 
 import "./scss/main.scss";
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 // prettier-ignore
 function myFunc() {
   const a = 'a'; const b = 'b';
   return a + b;
 }
 
-export default function App(props: Props) {
+export default ({}: Props) => {
   return (
     <>
       <div className="relative">

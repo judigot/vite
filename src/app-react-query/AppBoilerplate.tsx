@@ -6,9 +6,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
-export default function App(props: Props) {
+export default ({}: Props) => {
   React.useEffect(() => {}, []);
 
   React.useEffect(() => {

@@ -4,7 +4,7 @@ interface Props {
   action: Function;
 }
 
-export default function Modal(props: Props) {
+export default function Modal({}: Props) {
   const [showModal, setShowModal] = React.useState(false);
   const executeCommand = () => {
     props.action();

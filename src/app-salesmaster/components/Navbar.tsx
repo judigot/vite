@@ -19,7 +19,7 @@ interface Props {
 
 const pages = ["Products", "Pricing", "Blog"];
 
-const User = (props: Props) => {
+const User = ({}: Props) => {
   const user = props.payload;
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null

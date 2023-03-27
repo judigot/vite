@@ -2,14 +2,17 @@ import React from "react";
 
 import axios from "axios";
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
 interface Form {
   username?: string;
   password?: string;
 }
 
-const LoginForm = (props: Props) => {
+const LoginForm = ({}: Props) => {
   const usernameRef = React.useRef<HTMLInputElement>(null!);
   const passwordRef = React.useRef<HTMLInputElement>(null!);
 

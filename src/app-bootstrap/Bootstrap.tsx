@@ -4,9 +4,12 @@ import "./scss/main.scss";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-interface Props {}
+interface Props {
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
-export default function App(props: Props) {
+export default ({}: Props) => {
   const [show, setShow] = React.useState(false);
 
   const handleClose = () => setShow(false);
