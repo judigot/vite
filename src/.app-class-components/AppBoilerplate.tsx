@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import ChildComponent from "./components/Component";
-import Data from "./utils/getData";
+import Data from "./utils/Data";
 
 // Proptypes and default props act as docs and should be at
 // the top of the component

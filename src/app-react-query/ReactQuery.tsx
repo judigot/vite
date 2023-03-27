@@ -2,27 +2,14 @@ import React from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-async function Data({ queryKey }: any) {
+import Data from "./helpers/Data";
+
+async function getData({ queryKey }: any) {
   const { searchQuery } = queryKey[1];
 
   console.log(searchQuery);
 
-  // return await fetch(`http://localhost:5000/api/users`, {
-  return await fetch(`https://www.boredapi.com/api/activity`, {
-    // *GET, POST, PUT, DELETE
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    // For POST/PUT requests
-    // body: JSON.stringify({ key: "value" }),
-  })
-    .then((response) => response.json())
-    .then((result) => result)
-    .catch((error) => {
-      // Failure
-    });
+  return Data();
 }
 
 interface Props {}
@@ -59,7 +46,7 @@ export default function App(props: Props) {
     fetchStatus,
   } = useQuery({
     queryKey: ["users", { searchQuery: searchRef.current?.value }],
-    queryFn: Data, // Function to fetch data
+    queryFn: getData, // Function to fetch data
     //==========BEHAVIOR==========//
     cacheTime: 5 * 60000, // 5 minutes
     refetchOnWindowFocus: "always",
@@ -70,7 +57,7 @@ export default function App(props: Props) {
     //
     //
     initialData: () => {
-      Data({ queryKey: "initialData" })
+      getData({ queryKey: "initialData" })
         .then((result) => {
           // Success
           return result;

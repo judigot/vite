@@ -1,6 +1,6 @@
 import MUIDataTable from "./components/MUIDatatable";
 
-import Data from "./helpers/getData";
+import Data from "./helpers/Data";
 
 export default function AppBoilerplate() {
   const columnNames = [

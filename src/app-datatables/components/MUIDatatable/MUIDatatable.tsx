@@ -12,7 +12,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
-import Data from "../../helpers/getData";
+import Data from "../../helpers/Data";
 
 const muiCache = createCache({
   key: "mui-datatables",

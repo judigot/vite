@@ -1,6 +1,6 @@
 import React from "react";
 
-import Data from "./helpers/getData";
+import Data from "./helpers/Data";
 
 import { Layouts, Modals } from "./components";
 
@@ -12,9 +12,15 @@ const H1Styled = styled.h1`
 `;
 //==========STYLE==========//
 
-interface Props {}
+interface Props {
+  name: string;
+  age: string;
+  birthday: Date;
+  [key: string]: string | number | Date; // For assigning dynamic keys (string)
+  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+}
 
-export default function App(props: Props) {
+export default function App({}: Props) {
   // const [count, setCount] = React.useState<number>(0);
 
   const [number, setNumber] = React.useState<number>(expensiveCalculation);
