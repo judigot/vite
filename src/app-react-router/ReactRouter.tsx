@@ -1,17 +1,48 @@
 import React from "react";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  Navigate,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 export default function App() {
   // Conditional rendering based whether if the user is authenticated or not
   const [auth, setAuth] = React.useState<boolean>(!true);
 
-  const redirectUnknownRoutes: boolean = !true;
+  const is404Enabled: boolean = true;
+
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Navigate to={auth ? "/user" : "/login"} replace />,
+      },
+      {
+        path: "/*",
+        element: is404Enabled ? (
+          <h1>404</h1>
+        ) : (
+          <Navigate to={auth ? "/user" : "/login"} replace />
+        ),
+      },
+      {
+        path: "/login",
+        element: !auth ? <h1>Login</h1> : <Navigate to="/user" replace />,
+      },
+      {
+        path: "/user",
+        element: auth ? <h1>User</h1> : <Navigate to="/login" replace />,
+      },
+    ],
+    {
+      basename: "/", // Set a base URL (e.g. "/app")
+    }
+  );
 
   return (
-    <BrowserRouter>
+    <>
       <h1>Auth = {auth.toString()}</h1>
-
       <button
         type="button"
         onClick={() => {
@@ -20,35 +51,7 @@ export default function App() {
       >
         {auth ? "Logout" : "Login"}
       </button>
-
-      <Routes>
-        <Route
-          path="/"
-          element={<Navigate to={auth ? "/user" : "/login"} replace />}
-        />
-        <Route
-          path="/login"
-          element={!auth ? <h1>Login</h1> : <Navigate to="/user" replace />}
-        />
-        <Route
-          path="/user"
-          element={auth ? <h1>User</h1> : <Navigate to="/login" replace />}
-        />
-        <Route path="/dashboard" element={<h1>Dashboard</h1>} />
-        <Route path="/404" element={<h1>404</h1>} />
-
-        {/*=====404=====*/}
-        {/* Redirect all unknown routes */}
-        {redirectUnknownRoutes ? (
-          <Route
-            path="/*"
-            element={<Navigate to={auth ? "/user" : "/login"} replace />}
-          />
-        ) : (
-          <Route path="/*" element={<Navigate to="/404" replace />} />
-        )}
-        {/*=====404=====*/}
-      </Routes>
-    </BrowserRouter>
+      <RouterProvider router={router} fallbackElement={<>Loading...</>} />
+    </>
   );
 }
