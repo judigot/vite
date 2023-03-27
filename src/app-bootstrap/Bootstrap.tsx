@@ -5,8 +5,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 interface Props {
-  [key: string]: string | number | Date; // For assigning dynamic keys (string)
-  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+  // For assigning dynamic keys (string)
+  [key: string]: string | number | Date | undefined;
+
+  // For assigning dynamic indexes (number)
+  [index: number]: string | number | Date | undefined;
 }
 
 export default ({}: Props) => {

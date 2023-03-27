@@ -13,11 +13,14 @@ const H1Styled = styled.h1`
 //==========STYLE==========//
 
 interface Props {
-  name: string;
-  age: string;
-  birthday: Date;
-  [key: string]: string | number | Date; // For assigning dynamic keys (string)
-  [index: number]: string | number | Date; // For assigning dynamic indexes (number)
+  name?: string;
+  age?: string;
+  birthday?: Date;
+  // For assigning dynamic keys (string)
+  [key: string]: string | number | Date | undefined;
+
+  // For assigning dynamic indexes (number)
+  [index: number]: string | number | Date | undefined;
 }
 
 export default ({}: Props) => {
@@ -88,4 +91,4 @@ export default ({}: Props) => {
       </div>
     </>
   );
-}
+};
