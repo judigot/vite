@@ -1,4 +1,4 @@
-import App from "./app-salesmaster";
+import App from "./app-react-router";
 
 import ReactDOM from "react-dom/client";
 
