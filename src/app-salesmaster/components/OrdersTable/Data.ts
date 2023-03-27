@@ -12,7 +12,7 @@ export default async () => {
   try {
     const response = await fetch(`http://localhost:5000/api/orders`, {
       // *GET, POST, PATCH, PUT, DELETE
-      method: "GET",
+      method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*", // Same as axios
         "Content-Type": "application/json",
