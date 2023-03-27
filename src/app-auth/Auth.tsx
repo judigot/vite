@@ -3,7 +3,7 @@ import User from "./components/User";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Authentication from "./utils/Authentication";
+import Authorization from "./utils/Authorization";
 
 // Conditional rendering based whether if the user is authenticated or not
 const auth:
@@ -15,7 +15,7 @@ const auth:
   | {
       isAuth: boolean;
       userData?: undefined;
-    } = await Authentication();
+    } = await Authorization();
 
 export default function App() {
   return (
