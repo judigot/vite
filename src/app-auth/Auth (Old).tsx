@@ -13,6 +13,7 @@ interface Payload {
 const user: Payload = (await Authorization()) as unknown as Payload;
 
 export default function App() {
+  console.log(typeof user.iat);
   return (
     <BrowserRouter>
       <Routes>

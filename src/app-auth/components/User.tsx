@@ -1,7 +1,7 @@
 import axios from "axios";
 
 interface Props {
-  payload?: { [key: string]: string };
+  payload?: { [key: string]: string | number };
 }
 
 const accessToken: string = localStorage.getItem("accessToken") || "";

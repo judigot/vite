@@ -5,37 +5,24 @@ import AxiosInterceptor from "./AxiosInterceptor";
 AxiosInterceptor;
 
 // Check if user is logged in
-const auth: () => Promise<
-  | void
-  | {
-      isAuth: boolean;
-      user: string;
+const auth = async () => {
+  try {
+    const {
+      data: { user, redirect },
+      status,
+      statusText,
+    } = await axios.post("http://localhost:5000/api/auth/authorize");
+    if (status === 200 && statusText === "OK") {
+      return user || null;
     }
-  | {
-      isAuth: boolean;
-      user?: undefined;
+  } catch (error: unknown) {
+    if (typeof error === `string`) {
+      throw new Error(error);
     }
-  | undefined
-> = async () => {
-  return axios
-    .post("http://localhost:5000/api/auth/authorize")
-    .then((res) => {
-      const data: { [key: string]: string } = res.data;
-      if (res.status === 200 && res.statusText === "OK") {
-        if (data.redirect === "user") {
-          return { isAuth: true, userData: data.user };
-        } else {
-          return { isAuth: false };
-        }
-      }
-    })
-    .catch((error) => {
-      // Fail
-      console.log(error);
-    })
-    .finally(() => {
-      // Finally
-    });
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
 };
 
 export default auth;
