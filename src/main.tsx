@@ -1,4 +1,4 @@
-import App from "./app-react-router";
+import App from "./.app-class-components";
 
 import ReactDOM from "react-dom/client";
 

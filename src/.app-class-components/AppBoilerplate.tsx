@@ -96,7 +96,7 @@ export default class ExampleComponent extends React.Component<Props, State> {
     // Destructured to shorten "this.state"
     // const {  } = this; // probably not necessary but cleans up the component a bit more
     const { counter: counterProp } = this.props;
-    const { count: count } = this.state;
+    const { count } = this.state;
 
     return (
       <>
