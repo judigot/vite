@@ -39,27 +39,10 @@ export default ({}: Props) => {
 
   React.useEffect(() => {
     // Initial render
-    if (!initialData) {
-      getData();
-    }
-
-    async function getData() {
-      // const response = await Data();
-      // const data = await response.json();
-      // setInitialData(data);
-
-      Data()
-        .then((result) => {
-          // Success
-          setInitialData(result);
-        })
-        .catch((error) => {
-          // Failure
-        })
-        .finally(() => {
-          // Finally
-        });
-    }
+    (async () => {
+      const data = await Data();
+      setInitialData(data);
+    })();
   }, []);
 
   React.useEffect(() => {

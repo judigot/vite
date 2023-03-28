@@ -48,17 +48,10 @@ export default class ExampleComponent extends React.Component<Props, State> {
   */
   componentDidMount() {
     // Initial render
-    Data()
-      .then((result) => {
-        // Success
-        this.setState({ data: result });
-      })
-      .catch((error) => {
-        // Failure
-      })
-      .finally(() => {
-        // Finally
-      });
+    (async () => {
+      const data = await Data();
+      this.setState({ data });
+    })();
   }
 
   /*
