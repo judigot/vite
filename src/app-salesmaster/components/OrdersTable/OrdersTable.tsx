@@ -1,11 +1,14 @@
 import React from "react";
 
 import Data, { Datatype } from "./Data";
+import Columns from "./CustomCells&Columns";
+import Filter from "./CustomCells&ColumnsFilter";
 
-import Columns from "./CustomColumns";
-import Filter from "./CustomFilter";
+// import Data, { Datatype, DefaultColumns as Columns } from "./Data";
+// import Filter from "./DefaultFilter";
 
-// import Columns from "./Columns";
+// import Data, { Datatype } from "./Data";
+// import Columns from "./CustomColumns";
 // import Filter from "./DefaultFilter";
 
 import Table from "@mui/material/Table";
@@ -30,6 +33,7 @@ import {
   FilterFn,
   flexRender,
   Cell,
+  ColumnDef,
 } from "@tanstack/react-table";
 
 import { RankingInfo } from "@tanstack/match-sorter-utils";
@@ -41,6 +45,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@src/app-salesmaster/store";
 
 import styled from "styled-components";
+import { OrderDetails } from "./OrderDetails";
 
 const darkTheme = createTheme({
   palette: {
@@ -164,7 +169,7 @@ export default function App() {
 
   const table = useReactTable({
     data,
-    columns: Columns,
+    columns: Columns as ColumnDef<Datatype>[],
     filterFns: {
       fuzzy: fuzzyFilter,
     },
@@ -222,13 +227,17 @@ export default function App() {
                                   header.column.columnDef.header,
                                   header.getContext()
                                 )}
-                                <i>
-                                  {{
-                                    asc: "(Ascending)",
-                                    desc: "(Descending)",
-                                  }[header.column.getIsSorted() as string] ??
-                                    null}
-                                </i>
+
+                                {header.column.getIsSorted() ? (
+                                  <i>
+                                    {
+                                      {
+                                        asc: "(Ascending)",
+                                        desc: "(Descending)",
+                                      }[header.column.getIsSorted() as string]
+                                    }
+                                  </i>
+                                ) : null}
                               </div>
                               {header.column.getCanFilter() ? (
                                 <div></div>

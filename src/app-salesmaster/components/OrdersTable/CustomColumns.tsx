@@ -1,80 +1,62 @@
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
-import OrderDetailsTable from "./OrderDetails/OrderDetails";
-import ClickToSearch from "./ClickToSearch";
 import { Datatype } from "./Data";
-
-import { formatDate } from "./helpers";
+import { OrderDetails } from "./OrderDetails";
 
 const columnHelper = createColumnHelper<Datatype>();
 
 // Visible columns
-export default [
-  columnHelper.accessor((row) => row.order_id, {
-    id: "Order ID",
-    header: (info) => {
-      return <h1>{info.column.id}</h1>;
-    },
-    cell: (info) => {
-      if (info.getValue) {
-        const cellValue = info.getValue();
-        return cellValue;
-      } else {
-        const cellValue = info;
-        return JSON.stringify(cellValue);
-      }
-    },
-    // footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.customer, {
-    id: "Customer",
-    header: (info) => {
-      return <h1>{info.column.id}</h1>;
-    },
-    cell: (info) => {
-      if (info.getValue) {
-        const cellValue = info.getValue();
-        return <ClickToSearch forCustomer={true} item={cellValue} />;
-      } else {
-        const cellValue = info;
-        return JSON.stringify(cellValue);
-      }
-    },
-    // footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.order_product, {
-    id: "Order Products",
-    header: (info) => {
-      return <h1>{info.column.id}</h1>;
-    },
-    cell: (info) => {
-      if (info.getValue) {
-        const cellValue = info.getValue();
-        return <OrderDetailsTable items={cellValue} />;
-      } else {
-        const cellValue = info;
-        return JSON.stringify(cellValue);
-      }
-    },
-    // footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.order_date, {
-    id: "Date",
-    header: (info) => {
-      return <h1>{info.column.id}</h1>;
-    },
-    cell: (info) => {
-      if (info.getValue) {
-        const cellValue = info.getValue();
+const columnNames: { [key: string]: string } = {
+  order_id: "Order ID",
+  customer: "Customer",
+  order_product: "Order Products",
+  order_date: "Date",
+};
 
-        const date = new Date(cellValue);
+export const assignColumnNames = (columnNames: { [key: string]: string }) => {
+  const columns: ColumnDef<
+    Datatype,
+    number | string | OrderDetails[] | Date
+  >[] = [];
 
-        return <ClickToSearch forDate={true} item={formatDate(date)} />;
-      } else {
-        const cellValue = info;
-        return JSON.stringify(cellValue);
-      }
-    },
-    // footer: (info) => info.column.id,
-  }),
-];
+  for (
+    let i = 0, arrayLength = Object.keys(columnNames).length;
+    i < arrayLength;
+    i++
+  ) {
+    const key: string[] = Object.keys(columnNames);
+    const columnName: string = columnNames[key[i]];
+    columns.push(
+      columnHelper.accessor(
+        (row: Datatype) => {
+          return row[key[i]];
+        },
+        {
+          id: columnName,
+          header: (info) => {
+            return info.column.id;
+          },
+          cell: (info) => {
+            if (info.getValue) {
+              const cellValue = info.getValue();
+              if (cellValue.constructor.name === "Date") {
+                return cellValue.toString();
+              }
+              if (["Array", "Object"].includes(cellValue.constructor.name)) {
+                return JSON.stringify(cellValue);
+              }
+              return cellValue.toString();
+            } else {
+              const cellValue = info;
+              return JSON.stringify(cellValue);
+            }
+          },
+          // footer: (info) => info.column.id,
+        }
+      )
+    );
+  }
+  return columns;
+};
+
+export default assignColumnNames(columnNames);

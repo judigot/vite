@@ -1,18 +1,24 @@
 import { OrderDetails } from "./OrderDetails";
+import { assignColumnNames } from "./CustomColumns";
 
 export interface Datatype {
   order_id: number;
+  customer_id: number;
   customer: string;
   order_product: OrderDetails[];
   order_date: Date;
   [key: string]: number | string | OrderDetails[] | Date;
 }
 
-export default async () => {
+const URL = `http://localhost:5000/api/orders`;
+
+const titleCaseColumnNames = true;
+
+const Data = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/orders`, {
+    const response = await fetch(`${URL}`, {
       // *GET, POST, PATCH, PUT, DELETE
-      method: "POST",
+      method: "GET",
       headers: {
         Accept: "application/json, text/plain, */*", // Same as axios
         "Content-Type": "application/json",
@@ -39,3 +45,34 @@ export default async () => {
   } finally {
   }
 };
+
+const titleCase = (string: string) => {
+  return string
+    .replace(/^[-_]*(.)/, (_, c) => c.toUpperCase())
+    .replace(/[-_]+(.)/g, (_, c) => " " + c.toUpperCase());
+};
+
+export const DefaultColumns = await (async () => {
+  try {
+    const data: object[] = await Data();
+    const keys: string[] = Object.keys(data[0]);
+    const columnNames: { [key: string]: string } = {};
+
+    for (let i = 0, arrayLength = keys.length; i < arrayLength; i++) {
+      columnNames[keys[i]] = titleCaseColumnNames
+        ? titleCase(keys[i])
+        : keys[i];
+    }
+
+    return assignColumnNames(columnNames);
+  } catch (error: unknown) {
+    if (typeof error === `string`) {
+      throw new Error(error);
+    }
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+})();
+
+export default Data;
