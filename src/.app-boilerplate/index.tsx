@@ -1,1 +1,1 @@
-export { default } from "./AppBoilerplate";
+export { default } from "./App";

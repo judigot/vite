@@ -56,31 +56,33 @@ export default ({}: Props) => {
   }, []);
 
   return (
-    data && (
-      <List
-        height={500}
-        itemCount={data.length}
-        itemSize={() => 100} // Row spacing
-        width={"100%"}
-        useIsScrolling={true}
-      >
-        {({ index, isScrolling, style }) => {
-          const { order_id, customer, order_date } = data[index];
+    <>
+      {data && (
+        <List
+          height={500}
+          itemCount={data.length}
+          itemSize={() => 100} // Row spacing
+          width={"100%"}
+          useIsScrolling={true}
+        >
+          {({ index, isScrolling, style }) => {
+            const { order_id, customer, order_date } = data[index];
 
-          return (
-            <div style={style}>
-              {/* {isScrolling ? <div>Loading...</div> : <div>Data {index}</div>} */}
-              <div>
-                <div style={{ backgroundColor: "steelblue" }}>
-                  <p>{order_id}</p>
-                  <p>{customer}</p>
-                  <p>{order_date.toString()}</p>
+            return (
+              <div style={style}>
+                {/* {isScrolling ? <div>Loading...</div> : <div>Data {index}</div>} */}
+                <div>
+                  <div style={{ backgroundColor: "steelblue" }}>
+                    <p>{order_id}</p>
+                    <p>{customer}</p>
+                    <p>{order_date.toString()}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        }}
-      </List>
-    )
+            );
+          }}
+        </List>
+      )}
+    </>
   );
 };
