@@ -1,16 +1,5 @@
 import React from "react";
 
-import Data, { Datatype } from "./Data";
-import Columns from "./CustomCells&Columns";
-import Filter from "./CustomCells&ColumnsFilter";
-
-// import Data, { Datatype, DefaultColumns as Columns } from "./Data";
-// import Filter from "./DefaultFilter";
-
-// import Data, { Datatype } from "./Data";
-// import Columns from "./CustomColumns";
-// import Filter from "./DefaultFilter";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,7 +8,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import { Button } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import LastPageIcon from "@mui/icons-material/LastPage";
+
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+
+import { useDispatch } from "react-redux";
+import { setQuery } from "@src/app-salesmaster/features/OrderSearchSlice";
 
 import {
   useReactTable,
@@ -45,7 +44,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "@src/app-salesmaster/store";
 
 import styled from "styled-components";
-import { OrderDetails } from "./OrderDetails";
+
+import Data, { Datatype } from "./Data";
+import Columns from "./CustomCells&Columns";
+import Filter from "./CustomCells&ColumnsFilter";
+
+// import Data, { Datatype, DefaultColumns as Columns } from "./Data";
+// import Filter from "./DefaultFilter";
+
+// import Data, { Datatype } from "./Data";
+// import Columns from "./CustomColumns";
+// import Filter from "./DefaultFilter";
 
 const darkTheme = createTheme({
   palette: {
@@ -153,6 +162,7 @@ const fuzzyFilter: FilterFn<Datatype> = (
 };
 
 export default function App() {
+  const dispatch = useDispatch();
   const searchQuery = useSelector(
     (state: RootState) => state.searchQuery.query
   );
@@ -194,11 +204,13 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <OrdersLayout>
         <OrdersSearch>
-          {/* <div>Search</div> */}
           <SearchBarContainer>
             <DebouncedInput
               value={searchQuery ?? ""}
-              onChange={(value) => setGlobalFilter(String(value))}
+              onChange={(value) => {
+                dispatch(setQuery(String(value)));
+                setGlobalFilter(String(value));
+              }}
               placeholder="Search"
             />
           </SearchBarContainer>
@@ -287,7 +299,7 @@ export default function App() {
             <span> | </span>
             <span className="flex items-center gap-1">
               Go to page: &nbsp;
-              <select
+              <Select
                 value={table.getState().pagination.pageIndex + 1}
                 onChange={(e) => {
                   const page = e.target.value ? Number(e.target.value) - 1 : 0;
@@ -295,58 +307,62 @@ export default function App() {
                 }}
               >
                 {[...Array(table.getPageCount())].map((value, i, array) => (
-                  <option key={i} value={i + 1}>
+                  <MenuItem key={i} value={i + 1}>
                     Page {i + 1}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
+              </Select>
             </span>
-            <select
+            <Select
               value={table.getState().pagination.pageSize}
               onChange={(e) => {
                 table.setPageSize(Number(e.target.value));
               }}
             >
               {[5, 10, 20].map((pageSize) => (
-                <option key={pageSize} value={pageSize}>
+                <MenuItem key={pageSize} value={pageSize}>
                   Show {pageSize}
-                </option>
+                </MenuItem>
               ))}
-            </select>
+            </Select>
           </PageInfoContainer>
           <PageNavigationContainer>
-            <Button
-              variant="contained"
+            <IconButton
+              size="large"
+              aria-label="first page"
               className="border rounded p-1"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
             >
-              First
-            </Button>
-            <Button
-              variant="contained"
+              <FirstPageIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="previous page"
               className="border rounded p-1"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              Previous
-            </Button>
-            <Button
-              variant="contained"
+              <NavigateBeforeIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="next page"
               className="border rounded p-1"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
-              Next
-            </Button>
-            <Button
-              variant="contained"
+              <NavigateNextIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="last page"
               className="border rounded p-1"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
             >
-              Last
-            </Button>
+              <LastPageIcon />
+            </IconButton>
           </PageNavigationContainer>
         </OrdersFooter>
       </OrdersLayout>

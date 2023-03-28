@@ -2,8 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@src/app-salesmaster/store";
+import { useDispatch } from "react-redux";
 import { setQuery } from "@src/app-salesmaster/features/OrderSearchSlice";
 
 const ClickableStyled = styled.div`
@@ -45,7 +44,6 @@ export const Clickable = ({ item, forCustomer, forDate }: Props) => {
     >
       {forCustomer && <PersonIcon />}
       {forDate && <CalendarMonthIcon />}
-
       <div>{item}</div>
     </ClickableStyled>
   );
