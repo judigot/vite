@@ -6,8 +6,8 @@ interface Props {
 
 const accessToken: string = localStorage.getItem("accessToken") || "";
 
-const User = ({}: Props) => {
-  const user = props.payload;
+const User = ({ payload }: Props) => {
+  const user = payload;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
