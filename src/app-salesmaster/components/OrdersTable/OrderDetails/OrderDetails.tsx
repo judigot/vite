@@ -44,15 +44,12 @@ const darkTheme = createTheme({
 });
 
 export const OrderDetailsTable = ({ items }: Props) => {
-  const [totalItems, setTotalItems] = React.useState<number>(0);
-  const [totalAmount, setTotalAmount] = React.useState<number>(0);
-  const [totalProfit, setTotalProfit] = React.useState<number>(0);
+  let totalItems = 0,
+    totalAmount = 0,
+    totalProfit = 0;
 
   return (
     <>
-      {localStorage.setItem("totalItems", "0")}
-      {localStorage.setItem("totalAmount", "0")}
-      {localStorage.setItem("totalProfit", "0")}
       <ThemeProvider theme={darkTheme}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
@@ -83,20 +80,10 @@ export const OrderDetailsTable = ({ items }: Props) => {
                   const amount = quantity * product_price;
                   const profit = amount - quantity * product_cost - discount;
 
-                  const totalAmount =
-                    localStorage.getItem("totalAmount")! +
-                    `+${amount - discount}`;
+                  totalItems = totalItems + quantity;
+                  totalAmount = totalAmount + (amount - discount);
+                  totalProfit = totalProfit + profit;
 
-                  const totalProfit =
-                    localStorage.getItem("totalProfit")! + `+${profit}`;
-
-                  localStorage.setItem(
-                    "totalItems",
-                    localStorage.getItem("totalItems")! + `+${quantity}`
-                  );
-
-                  localStorage.setItem("totalAmount", totalAmount);
-                  localStorage.setItem("totalProfit", totalProfit);
                   return (
                     <TableRow
                       key={id}
@@ -142,26 +129,21 @@ export const OrderDetailsTable = ({ items }: Props) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell colSpan={1}></TableCell>
-                <TableCell align="right">
-                  Total items: {eval(localStorage.getItem("totalItems")!)}
-                </TableCell>
+                <TableCell align="right">Total items: {totalItems}</TableCell>
                 <TableCell colSpan={2}></TableCell>
                 <TableCell align="right">
                   Total amount:{` ${CURRENCY} `}
-                  {eval(localStorage.getItem("totalAmount")!)}
+                  {totalAmount}
                 </TableCell>
                 <TableCell align="right">
                   Total profit:{` ${CURRENCY} `}
-                  {eval(localStorage.getItem("totalProfit")!)}
+                  {totalProfit}
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
       </ThemeProvider>
-      {localStorage.removeItem("totalItems")}
-      {localStorage.removeItem("totalAmount")}
-      {localStorage.removeItem("totalProfit")}
     </>
   );
 };
