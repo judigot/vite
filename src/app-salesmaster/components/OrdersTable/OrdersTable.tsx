@@ -300,7 +300,11 @@ export default function App() {
             <span className="flex items-center gap-1">
               Go to page: &nbsp;
               <Select
-                value={table.getState().pagination.pageIndex + 1}
+                value={
+                  table.getState().pagination.pageIndex
+                    ? table.getState().pagination.pageIndex + 1
+                    : ""
+                }
                 onChange={(e) => {
                   const page = e.target.value ? Number(e.target.value) - 1 : 0;
                   table.setPageIndex(page);
@@ -313,6 +317,7 @@ export default function App() {
                 ))}
               </Select>
             </span>
+
             <Select
               value={table.getState().pagination.pageSize}
               onChange={(e) => {
