@@ -300,18 +300,14 @@ export default function App() {
             <span className="flex items-center gap-1">
               Go to page: &nbsp;
               <Select
-                value={
-                  table.getState().pagination.pageIndex
-                    ? table.getState().pagination.pageIndex + 1
-                    : ""
-                }
+                value={table.getState().pagination.pageIndex}
+                renderValue={(value) => value + 1}
                 onChange={(e) => {
-                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                  table.setPageIndex(page);
+                  table.setPageIndex(Number(e.target.value));
                 }}
               >
                 {[...Array(table.getPageCount())].map((value, i, array) => (
-                  <MenuItem key={i} value={i + 1}>
+                  <MenuItem key={i} value={i}>
                     Page {i + 1}
                   </MenuItem>
                 ))}
