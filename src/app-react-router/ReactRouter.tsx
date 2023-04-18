@@ -4,7 +4,14 @@ import {
   Navigate,
   createBrowserRouter,
   RouterProvider,
+  useParams,
 } from "react-router-dom";
+
+function ProfilePage() {
+  const params = useParams();
+
+  return <p>{JSON.stringify(params)}</p>;
+}
 
 export default function App() {
   // Conditional rendering based whether if the user is authenticated or not
@@ -33,6 +40,10 @@ export default function App() {
       {
         path: "/user",
         element: auth ? <h1>User</h1> : <Navigate to="/login" replace />,
+      },
+      {
+        path: "/user/:userID",
+        element: <>{<ProfilePage />}</>,
       },
     ],
     {
