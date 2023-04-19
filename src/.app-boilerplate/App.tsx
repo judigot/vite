@@ -23,12 +23,12 @@ interface Props {
   [index: number]: string | number | Date | undefined;
 }
 
+const initialData: object | undefined = await Data();
+
 export default ({}: Props) => {
   // const [count, setCount] = React.useState<number>(0);
 
   const [number, setNumber] = React.useState<number>(expensiveCalculation);
-
-  const [initialData, setInitialData] = React.useState<object>();
 
   function expensiveCalculation(): number {
     console.log("Calculating...");
@@ -38,16 +38,16 @@ export default ({}: Props) => {
   }
 
   React.useEffect(() => {
-    // Initial render
-    (async () => {
-      const data = await Data();
-      setInitialData(data);
-    })();
-  }, []);
+    // Runs after every successful render or state change
+    console.log("A state was changed.");
+  });
 
   React.useEffect(() => {
-    // Runs after every successful render or state change
-  });
+    // Prevent running on initial render
+    if (number !== 0) {
+      console.log("This console log runs after changing number state.");
+    }
+  }, [number]);
 
   //====================HELPER FUNCTIONS====================//
   // Function expression syntax to save memory
