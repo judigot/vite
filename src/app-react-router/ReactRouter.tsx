@@ -43,7 +43,7 @@ export default function App() {
       },
       {
         path: "/user/:userID",
-        element: <>{<ProfilePage />}</>,
+        element: <ProfilePage />,
       },
     ],
     {
