@@ -1,4 +1,6 @@
 export default async () => {
+  let data: object | object[] | undefined = undefined;
+
   try {
     const response = await fetch(`https://www.boredapi.com/api/activity`, {
       // *GET, POST, PATCH, PUT, DELETE
@@ -11,7 +13,7 @@ export default async () => {
       // body: JSON.stringify({ key: "value" }),
     });
     if (response?.ok) {
-      return response.json();
+      data = response.json();
     } else {
       throw new Error(`HTTP error: ${response}`);
     }
@@ -27,5 +29,10 @@ export default async () => {
       throw new Error(`Syntax Error: ${error}`);
     }
   } finally {
+  }
+
+  // Success
+  if (data) {
+    return data;
   }
 };

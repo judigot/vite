@@ -28,7 +28,7 @@ export default ({}: Props) => {
 
   const [number, setNumber] = React.useState<number>(expensiveCalculation);
 
-  const [initialData, setInitialData] = React.useState<string>();
+  const [initialData, setInitialData] = React.useState<object>();
 
   function expensiveCalculation(): number {
     console.log("Calculating...");
