@@ -44,9 +44,11 @@ const darkTheme = createTheme({
 });
 
 export const OrderDetailsTable = ({ items }: Props) => {
-  let totalItems = 0,
-    totalAmount = 0,
-    totalProfit = 0;
+  const defVal = 0;
+
+  let totalItems = defVal,
+    totalAmount = defVal,
+    totalProfit = defVal;
 
   return (
     <>
