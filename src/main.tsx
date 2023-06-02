@@ -1,4 +1,4 @@
-import App from "./app-auth";
+import App from "./app-countries";
 
 import ReactDOM from "react-dom/client";
 
