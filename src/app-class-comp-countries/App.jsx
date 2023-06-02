@@ -17,16 +17,16 @@ class App extends Component {
 
   search = (e) => {
     const { countries, filteredCountries } = this.state;
-    const input = e.target.value;
-    const filtered = [];
-    if (input) {
+    const query = e.target.value;
+    const matches = [];
+    if (query) {
       for (let i = 0, arrayLength = countries.length; i < arrayLength; i++) {
         const country = countries[i];
-        if (country.toUpperCase().match(input.toUpperCase())) {
-          filtered.push(country);
+        if (country.toUpperCase().match(query.toUpperCase())) {
+          matches.push(country);
         }
       }
-      this.setState({ filteredCountries: filtered });
+      this.setState({ filteredCountries: matches });
     } else {
       this.setState({ filteredCountries: null });
     }
