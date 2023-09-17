@@ -1,4 +1,4 @@
-import App from "./app-countries";
+import App from "./.app-boilerplate";
 
 import ReactDOM from "react-dom/client";
 
