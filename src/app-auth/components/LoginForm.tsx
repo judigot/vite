@@ -3,8 +3,8 @@ import React from "react";
 import axios from "axios";
 
 interface Form {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
 }
 
 const LoginForm = () => {
