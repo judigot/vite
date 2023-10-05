@@ -2,31 +2,32 @@ import React from "react";
 
 import axios from "axios";
 
-interface Props {
-  // For assigning dynamic keys (string)
-  [key: string]: string | number | Date | undefined;
-
-  // For assigning dynamic indexes (number)
-  [index: number]: string | number | Date | undefined;
-}
-
 interface Form {
   username?: string;
   password?: string;
 }
 
-const LoginForm = ({}: Props) => {
-  const usernameRef = React.useRef<HTMLInputElement>(null!);
-  const passwordRef = React.useRef<HTMLInputElement>(null!);
+const LoginForm = () => {
+  const [formData, setFormData] = React.useState<Form>({
+    username: "",
+    password: "",
+  });
 
   const [message, setMessage] = React.useState<string>("");
+
+  const handleInputChange = (
+    e: React.FormEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.currentTarget;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Get form values
-    const username: Form["username"] = usernameRef.current.value;
-    const password: Form["password"] = passwordRef.current.value;
+    const { username, password } = formData;
 
     if (username && password) {
       axios
@@ -74,14 +75,21 @@ const LoginForm = ({}: Props) => {
         <input
           autoFocus
           required
-          ref={usernameRef}
           type="text"
           name="username"
+          onChange={handleInputChange}
         />
 
         <label>Password</label>
-        <input required ref={passwordRef} type="password" name="password" />
+        <input
+          required
+          type="password"
+          name="password"
+          onChange={handleInputChange}
+        />
+
         <button type="submit">Login</button>
+
         {message && <p>{message}</p>}
       </form>
     </div>
