@@ -15,11 +15,7 @@ const LoginForm = () => {
 
   const [message, setMessage] = React.useState<string>("");
 
-  const handleInputChange = (
-    e: React.FormEvent<
-      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
-    >
-  ) => {
+  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     setFormData({ ...formData, [name]: value });
   };
