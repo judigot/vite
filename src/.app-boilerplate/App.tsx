@@ -43,6 +43,9 @@ export default ({}: Props) => {
       const data = await Data();
       setInitialData(data);
     })();
+
+    // Cleanup function
+    return () => {};
   }, []);
 
   React.useEffect(() => {
