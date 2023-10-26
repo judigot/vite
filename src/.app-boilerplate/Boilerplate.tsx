@@ -20,7 +20,7 @@ const Boilerplate = ({ name, age }: Props) => {
   return (
     <div>
       <p>Name: {name}</p>
-      <p>Age: {age}</p>
+      {age && <p>Age: {age}</p>}
     </div>
   );
 };

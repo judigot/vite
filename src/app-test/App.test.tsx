@@ -34,8 +34,7 @@ describe("Tester", () => {
 
     console.log(result.current.name);
 
-    const props = { isPasswordCorrect: true };
-    render(<App isPasswordCorrect={props.isPasswordCorrect} />);
+    render(<App isPasswordCorrect={true} />);
     const component = screen.getByTestId("admin-container");
     expect(component).toBeInTheDocument();
   });
