@@ -1,14 +1,17 @@
 import React from "react";
-import App from "./App";
-
 import "@testing-library/jest-dom";
 
-import { act, renderHook, render, screen } from "@testing-library/react";
+import { act, render, renderHook, screen } from "@testing-library/react";
+import App from "./App";
 
-const useCustomHook = ({ propVal }: { propVal: string }) => {
+const useCustomHook = ({
+  propVal,
+}: {
+  propVal: string;
+}): { name: string; mutateData: (mutationValue: string) => Promise<void> } => {
   const [name, setName] = React.useState<string>(propVal);
 
-  const mutateData = async (mutationValue: string) => {
+  const mutateData = async (mutationValue: string): Promise<void> => {
     await fetch("https://jsonplaceholder.typicode.com/todos/1")
       .then((response) => response.json())
       .then(() => {

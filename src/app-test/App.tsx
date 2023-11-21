@@ -4,7 +4,7 @@ interface Props {
   isPasswordCorrect?: boolean;
 }
 
-function Admin() {
+function Admin(): JSX.Element {
   return (
     <div data-testid="admin-container">
       <span>Hello, Admin</span>
@@ -12,14 +12,16 @@ function Admin() {
   );
 }
 
-function Home() {
+function Home(): JSX.Element {
   return (
     <div data-testid="home-container">Do you have an account? Log in!</div>
   );
 }
 
-export default function App({ isPasswordCorrect }: Props) {
-  const [isAuth, setIsAuth] = React.useState<boolean>(isPasswordCorrect ?? false);
+export default function App({ isPasswordCorrect }: Props): JSX.Element {
+  const [isAuth, setIsAuth] = React.useState<boolean>(
+    isPasswordCorrect ?? false
+  );
   return (
     <div style={{ width: "min-content" }}>
       <section className="layer-desk">
