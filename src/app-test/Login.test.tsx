@@ -2,7 +2,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 
 import { act, render, renderHook, screen } from "@testing-library/react";
-import App from "./App";
+import Login from "./Login";
 
 const useCustomHook = ({
   propVal,
@@ -37,7 +37,7 @@ describe("Tester", () => {
 
     console.log(result.current.name);
 
-    render(<App isPasswordCorrect={true} />);
+    render(<Login isPasswordCorrect={true} />);
     const component = screen.getByTestId("admin-container");
     expect(component).toBeInTheDocument();
   });

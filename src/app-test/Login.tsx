@@ -18,7 +18,7 @@ function Home(): JSX.Element {
   );
 }
 
-export default function App({ isPasswordCorrect }: Props): JSX.Element {
+export default function Login({ isPasswordCorrect }: Props): JSX.Element {
   const [isAuth, setIsAuth] = React.useState<boolean>(
     isPasswordCorrect ?? false
   );
