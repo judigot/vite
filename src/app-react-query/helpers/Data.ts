@@ -1,6 +1,6 @@
 export default async () => {
   try {
-    const response = await fetch(`https://www.boredapi.com/api/activity`, {
+    const response = await fetch(`https://api.quotable.io/random`, {
       // *GET, POST, PATCH, PUT, DELETE
       method: "GET",
       headers: {
