@@ -19,7 +19,7 @@ module.exports = {
     //
   ],
   ignorePatterns: [
-    'api',
+    'api/*.js',
     'dist',
     '.eslintrc.cjs',
     'tailwind.config.js',
