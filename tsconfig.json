@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // <server>
-    "outDir": "./dist",
+    "outDir": "./api",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     // <server/>
