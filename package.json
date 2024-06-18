@@ -7,7 +7,7 @@
     "dev": "vite & tsc --noEmit --watch & nodemon --exec tsx src/index.ts",
     "test": "vitest",
     "build": "tsc && tsc -p tsconfig.custom.json && vite build",
-    "start": "node dist/index.js",
+    "start": "node api/index.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
