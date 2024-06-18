@@ -16,7 +16,6 @@ function App() {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           // Authorization: 'Basic ' + btoa('admin:123'),
-          // 
         },
       },
     )
