@@ -41,7 +41,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    project: ['./tsconfig.json', './tsconfig.node.json', "./tsconfig.custom.json"],
     tsconfigRootDir: __dirname,
   },
   //
