@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite & tsc --noEmit --watch & tsc --watch -p tsconfig.custom.json & nodemon --exec tsx server/index.ts",
     "test": "vitest",
-    "build": "tsc && tsc -p tsconfig.custom.json && vite build",
+    "build": "tsc && esbuild server/index.ts --bundle --platform=node --format=esm --outfile=api/index.js && vite build",
     "start": "node api/index.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
