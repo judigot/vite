@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite & tsc --noEmit --watch & tsc --watch -p tsconfig.custom.json & nodemon --exec tsx api/index.ts",
+    "dev": "vite & tsc --noEmit --watch & tsc --watch -p tsconfig.custom.json & nodemon --exec tsx server/index.ts",
     "test": "vitest",
     "build": "tsc && tsc -p tsconfig.custom.json && vite build",
     "start": "node api/index.js",
