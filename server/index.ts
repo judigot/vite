@@ -35,7 +35,7 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/api', (_req: Request, res: Response) =>
-  res.json({ message: "Hello, World!" }),
+  res.json({ message: 'Hello, World!' }),
 );
 
 // Start server
