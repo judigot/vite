@@ -35,7 +35,7 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/api', (_req: Request, res: Response) =>
-  res.json({ message: path.join(publicDirectory, 'index.html') }),
+  res.json({ message: "Hello, World!" }),
 );
 
 // Start server
