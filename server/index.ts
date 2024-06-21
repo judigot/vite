@@ -3,7 +3,9 @@ import cors from 'cors';
 import path from 'path';
 import sampleModule from './app.js';
 import dotenv from 'dotenv';
-// Load the appropriate .env file based on NODE_ENV
+dotenv.config(); // Load .env
+
+// Load .env.[mode]
 dotenv.config({
   path:
     process.env.NODE_ENV === 'production'
