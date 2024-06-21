@@ -32,8 +32,6 @@ app.get('/', (_req, res) => {
     return;
   }
 
-  console.log(publicDirectory);
-
   res.json({
     publicDirectory,
   });
