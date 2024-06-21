@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const data = customFetch.get<IData | undefined>({
-      url: '/',
+      url: '/api',
     });
 
     data

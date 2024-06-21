@@ -24,7 +24,6 @@ app.get('/', (_req, res) => {
         res.redirect(String(process.env.VITE_FRONTEND_URL));
         return;
     }
-    console.log(publicDirectory);
     res.json({
         publicDirectory,
     });
