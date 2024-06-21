@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
-dotenv.config();
 import sampleModule from './app.js';
+dotenv.config();
 
 const app = express();
 const PORT = (process.env.PORT ?? 5000).toString();
@@ -32,12 +32,11 @@ app.get('/', (_req, res) => {
     return;
   }
 
+  console.log(publicDirectory);
+
   res.json({
     publicDirectory,
   });
-  //   console.log(publicDirectory);
-
-  // res.sendFile(publicDirectory);
 });
 
 app.get('/api', (_req: Request, res: Response) =>

@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
-dotenv.config();
 import sampleModule from './app.js';
+dotenv.config();
 const app = express();
 const PORT = (process.env.PORT ?? 5000).toString();
 const platform = process.platform;
@@ -24,11 +24,10 @@ app.get('/', (_req, res) => {
         res.redirect(String(process.env.VITE_FRONTEND_URL));
         return;
     }
+    console.log(publicDirectory);
     res.json({
         publicDirectory,
     });
-    //   console.log(publicDirectory);
-    // res.sendFile(publicDirectory);
 });
 app.get('/api', (_req, res) => res.json({
     message: String(sampleModule),

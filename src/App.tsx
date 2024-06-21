@@ -1,3 +1,4 @@
+import { customFetch } from '@/utils/customFetch';
 import React, { useEffect } from 'react';
 
 interface IData {
@@ -8,18 +9,14 @@ function App() {
   const [data, setData] = React.useState<IData | undefined>(undefined);
 
   useEffect(() => {
-    fetch(String(import.meta.env.VITE_SITE_URL), {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        // Authorization: 'Basic ' + btoa('admin:123'),
-      },
-    })
-      .then((response) => response.json())
-      .then((result: IData | undefined) => {
+    const data = customFetch.get<IData | undefined>({
+      url: '/',
+    });
+
+    data
+      .then((result) => {
         // Success
-        if (result) {
+        if (result !== undefined) {
           setData(result);
         }
       })
