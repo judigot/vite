@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import sampleModule from './app.js';
 import dotenv from 'dotenv';
+
 dotenv.config(); // Load .env
 
 // Load .env.[mode]
