@@ -31,7 +31,6 @@ app.use(express.static(publicDirectory));
 
 // Define routes
 app.get('/', (_req, res) => {
-  console.log(process.env.NODE_ENV);
   const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 
   if (isDevelopment) {
