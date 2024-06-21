@@ -14,7 +14,7 @@ if (platform === 'win32') {
   __dirname = __dirname.substring(1);
 }
 
-const publicDirectory = path.join(__dirname, 'public');
+const publicDirectory = path.join(__dirname, '../dist/public');
 
 // Parse JSON from front end
 app.use(express.json());
@@ -32,11 +32,19 @@ app.get('/', (_req, res) => {
     return;
   }
 
-  res.sendFile(publicDirectory);
+  res.json({
+    publicDirectory,
+  });
+  //   console.log(publicDirectory);
+
+  // res.sendFile(publicDirectory);
 });
 
 app.get('/api', (_req: Request, res: Response) =>
-  res.json({ message: sampleModule }),
+  res.json({
+    message: String(sampleModule),
+    environment: String(process.env.NODE_ENV),
+  }),
 );
 
 // Start server
