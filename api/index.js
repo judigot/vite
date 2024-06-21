@@ -9,9 +9,6 @@ dotenv.config({
         ? '.env.production'
         : '.env.development',
 });
-console.log(`Loaded ${process.env.NODE_ENV === 'development'
-    ? '.env.development'
-    : '.env.production'}`);
 const app = express();
 const PORT = (process.env.VITE_BACKEND_PORT ?? 3000).toString();
 const platform = process.platform;
@@ -27,7 +24,6 @@ app.use(cors());
 app.use(express.static(publicDirectory));
 // Define routes
 app.get('/', (_req, res) => {
-    console.log(process.env.NODE_ENV);
     const isDevelopment = process.env.NODE_ENV === 'development';
     if (isDevelopment) {
         res.redirect(String(process.env.VITE_FRONTEND_URL));

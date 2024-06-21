@@ -1,4 +1,4 @@
-const API_URL = `${String(import.meta.env.VITE_SITE_URL)}${String(import.meta.env.VITE_BACKEND_PORT)}`;
+const API_URL = String(import.meta.env.VITE_SITE_URL);
 
 export interface IFetchOptions extends RequestInit {
   timeout?: number;
