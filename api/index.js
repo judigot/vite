@@ -3,14 +3,19 @@ import cors from 'cors';
 import path from 'path';
 import sampleModule from './app.js';
 import dotenv from 'dotenv';
-// Load the appropriate .env file based on NODE_ENV
-dotenv.config({
-    path: process.env.NODE_ENV === 'production'
-        ? '.env.production'
-        : '.env.development',
-});
+import dotenvExpand from 'dotenv-expand';
+dotenvExpand.expand(dotenv.config()); // Load .env
+// Load .env.[mode]
+dotenvExpand.expand(dotenv.config({
+    path: process.env.NODE_ENV === 'development'
+        ? '.env.development'
+        : '.env.production',
+}));
 const app = express();
-const PORT = (process.env.VITE_BACKEND_PORT ?? 3000).toString();
+// const PORT = (process.env.VITE_BACKEND_PORT ?? 3000).toString();
+const PORT = ((process.env.NODE_ENV === 'development'
+    ? process.env.VITE_BACKEND_PORT
+    : process.env.VITE_PROD_PORT) ?? 3000).toString();
 const platform = process.platform;
 let __dirname = path.dirname(decodeURI(new URL(import.meta.url).pathname));
 if (platform === 'win32') {
