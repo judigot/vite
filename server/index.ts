@@ -25,7 +25,7 @@ app.use(express.static(publicDirectory));
 
 // Define routes
 app.get('/', (_req, res) => {
-  const isDevelopment: boolean = String(import.meta.env.NODE_ENV) === 'development';
+  const isDevelopment: boolean = String(process.env.NODE_ENV) === 'development';
 
   if (isDevelopment) {
     res.redirect(String(process.env.VITE_FRONTEND_URL));
