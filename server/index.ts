@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
+import sampleModule from './app.js';
 dotenv.config();
 
 const app = express();
@@ -35,7 +36,7 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/api', (_req: Request, res: Response) =>
-  res.json({ message: 'Hello, World!' }),
+  res.json({ message: sampleModule }),
 );
 
 // Start server
