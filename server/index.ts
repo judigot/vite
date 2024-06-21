@@ -18,7 +18,6 @@ dotenvExpand.expand(
 );
 
 const app = express();
-// const PORT = (process.env.VITE_BACKEND_PORT ?? 3000).toString();
 const PORT = (
   (process.env.NODE_ENV === 'development'
     ? process.env.VITE_BACKEND_PORT
