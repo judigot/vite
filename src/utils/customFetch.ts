@@ -1,10 +1,8 @@
-const API_URL = String(import.meta.env.VITE_SITE_URL);
-
-type DataBody = BodyInit;
+const API_URL = `${String(import.meta.env.VITE_SITE_URL)}${String(import.meta.env.VITE_BACKEND_PORT)}`;
 
 export interface IFetchOptions extends RequestInit {
   timeout?: number;
-  body?: DataBody;
+  body?: BodyInit;
 }
 
 export type RequestInterceptor = (
@@ -48,7 +46,7 @@ const applyRequestInterceptors = (
 const applyResponseInterceptors = (response: Response): Response =>
   responseInterceptors.reduce((acc, interceptor) => interceptor(acc), response);
 
-const determineContentType = (body: DataBody): string => {
+const determineContentType = (body: BodyInit): string => {
   if (body instanceof FormData) {
     return 'multipart/form-data';
   }
@@ -124,7 +122,7 @@ export const customFetch = {
   },
   post: async <T>(params: {
     url: string;
-    body: DataBody;
+    body: BodyInit;
     options?: IFetchOptions;
   }): Promise<T> => {
     const { url, body, options } = params;

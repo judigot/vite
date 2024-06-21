@@ -12,7 +12,7 @@ dotenv.config({
 });
 
 const app = express();
-const PORT = (process.env.BACKEND_PORT ?? 3000).toString();
+const PORT = (process.env.VITE_BACKEND_PORT ?? 3000).toString();
 const platform: string = process.platform;
 let __dirname = path.dirname(decodeURI(new URL(import.meta.url).pathname));
 
@@ -31,6 +31,7 @@ app.use(express.static(publicDirectory));
 
 // Define routes
 app.get('/', (_req, res) => {
+  console.log(process.env.NODE_ENV);
   const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 
   if (isDevelopment) {
