@@ -1,12 +1,18 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
-import dotenv from 'dotenv';
 import sampleModule from './app.js';
-dotenv.config();
+import dotenv from 'dotenv';
+// Load the appropriate .env file based on NODE_ENV
+dotenv.config({
+  path:
+    process.env.NODE_ENV === 'production'
+      ? '.env.production'
+      : '.env.development',
+});
 
 const app = express();
-const PORT = (process.env.PORT ?? 5000).toString();
+const PORT = (process.env.BACKEND_PORT ?? 3000).toString();
 const platform: string = process.platform;
 let __dirname = path.dirname(decodeURI(new URL(import.meta.url).pathname));
 
@@ -14,7 +20,7 @@ if (platform === 'win32') {
   __dirname = __dirname.substring(1);
 }
 
-const publicDirectory = path.join(__dirname, '../dist/public');
+const publicDirectory = path.join(__dirname, '../dist');
 
 // Parse JSON from front end
 app.use(express.json());
@@ -25,7 +31,7 @@ app.use(express.static(publicDirectory));
 
 // Define routes
 app.get('/', (_req, res) => {
-  const isDevelopment: boolean = String(process.env.NODE_ENV) === 'development';
+  const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 
   if (isDevelopment) {
     res.redirect(String(process.env.VITE_FRONTEND_URL));
