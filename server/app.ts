@@ -1,3 +1,3 @@
-const stringVariable = 'Hello, World! From App.ts';
+const sampleModule = 'Hello, World! From App.ts';
 
-export default stringVariable;
+export default sampleModule;
