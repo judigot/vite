@@ -28,7 +28,6 @@ function App() {
 
   return (
     <div style={{ zoom: '500%', textAlign: 'center' }}>
-      Tester
       <pre>
         <code>{JSON.stringify(data, null, 4)}</code>
       </pre>

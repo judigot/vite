@@ -56,7 +56,7 @@ app.get('/', (_req, res) => {
 app.get('/api', (_req: Request, res: Response) =>
   res.json({
     message: String(sampleModule),
-    environment: String(process.env.NODE_ENV),
+    mode: String(process.env.NODE_ENV),
   }),
 );
 
